@@ -34,7 +34,7 @@ WIN.compileSWT = true;
 WIN.includeNull3d = true
 
 // Lambda for naming the generated libs
-WIN.library = { name -> return "${name}.dll" as String }
+WIN.library = { name -> return (IS_STATIC_BUILD ? "${name}.lib" : "${name}.dll") as String }
 
 WIN.libDest = "bin"
 WIN.modLibDest = "lib"
@@ -117,7 +117,11 @@ def ccFlags = ["/nologo", "/W3", "/EHsc", "/c",
         "/I$JDK_HOME/include", "/I$JDK_HOME/include/win32",
         ccDebugFlags].flatten();
 
-def linkFlags = ["/nologo", "/dll", "/manifest", "/opt:REF", "/incremental:no", "/dynamicbase", "/nxcompat"];
+def staticLinkFlags = ["/nologo", "/manifest", "/opt:REF", "incremental:no", "/nxcompat"]
+def dynamicLinkFlags = ["/nologo", "/dll", "/manifest", "/opt:REF", "/incremental:no", "/dynamicbase", "/nxcompat"];
+
+def linkFlags = IS_STATIC_BUILD ? staticLinkFlags : dynamicLinkFlags
+
 if (!IS_64) linkFlags.add("/safeseh");
 if (IS_DEBUG_NATIVE) linkFlags.add("/debug");
 
@@ -150,7 +154,7 @@ if (hasProperty('toolchainDir')) {
                       : "$WINDOWS_VS_VSINSTALLDIR/VC/BIN")
 }
 def compiler = IS_COMPILE_PARFAIT ? "cl.exe" : cygpath("$msvcBinDir/cl.exe")
-def linker = IS_COMPILE_PARFAIT ? "link.exe" : cygpath("$msvcBinDir/link.exe")
+def linker = IS_STATIC_BUILD ? "lib" : IS_COMPILE_PARFAIT ? "link.exe" : cygpath("$msvcBinDir/link.exe")
 def winSdkBinDir = "$WINDOWS_SDK_DIR/Bin"
 if (WINDOWS_VS_VER != "100") {
     winSdkBinDir += "/$CPU_BITS"
