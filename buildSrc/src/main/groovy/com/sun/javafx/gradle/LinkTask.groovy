@@ -55,10 +55,12 @@ class LinkTask extends DefaultTask {
             if (project.IS_DEBUG_NATIVE && !project.IS_WINDOWS) args("-g");
             if (linkParams != null) args(linkParams);
             if (project.IS_WINDOWS){
-                final String libPath = lib.toString();
-                final String libPrefix = libPath.substring(0, libPath.lastIndexOf("."))
-                args("/pdb:${libPrefix}.pdb",
-                    "/map:${libPrefix}.map");
+                if (!project.IS_STATIC_BUILD) {
+                    final String libPath = lib.toString();
+                    final String libPrefix = libPath.substring(0, libPath.lastIndexOf("."))
+                    args("/pdb:${libPrefix}.pdb",
+                        "/map:${libPrefix}.map");
+                }
                 environment(project.WINDOWS_NATIVE_COMPILE_ENVIRONMENT);
             }
         });
