@@ -1342,3 +1342,4 @@ JNIEXPORT jint JNICALL JNI_OnLoad_prism_d3d(JavaVM *vm, void *reserved)
 }
 
 } // extern "C"
+#endif // STATIC_BUILD
