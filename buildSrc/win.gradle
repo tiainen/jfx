@@ -117,7 +117,7 @@ def ccFlags = ["/nologo", "/W3", "/EHsc", "/c",
         "/I$JDK_HOME/include", "/I$JDK_HOME/include/win32",
         ccDebugFlags].flatten();
 
-if (IS_STATIC_BUILD) commonFlags.add("/DSTATIC_BUILD");
+if (IS_STATIC_BUILD) ccFlags.add("/DSTATIC_BUILD");
 
 def linkFlags = ["/nologo", "/dll", "/manifest", "/opt:REF", "/incremental:no", "/dynamicbase", "/nxcompat"];
 
