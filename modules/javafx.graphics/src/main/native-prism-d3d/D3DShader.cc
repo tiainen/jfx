@@ -196,4 +196,24 @@ JNIEXPORT jint JNICALL Java_com_sun_prism_d3d_D3DShader_nGetRegister
     return -1;
 }
 
+#ifdef STATIC_BUILD
+JNIEXPORT jint JNICALL JNI_OnLoad_prism_d3d(JavaVM *jvm, void *reserved)
+{
+fprintf(stderr, "[JSDBG] A\n");
+#ifdef JNI_VERSION_1_8
+    //min. returned JNI_VERSION required by JDK8 for builtin libraries
+    JNIEnv *env;
+    if (jvm->GetEnv((void **)&env, JNI_VERSION_1_8) != JNI_OK) {
+        fprintf(stderr, "[JSDBG] B\n");
+        return JNI_VERSION_1_4;
+    }
+    fprintf(stderr, "[JSDBG] C\n");
+    return JNI_VERSION_1_8;
+#else
+    fprintf(stderr, "[JSDBG] D\n");
+    return JNI_VERSION_1_4;
+#endif
 }
+#endif // STATIC_BUILD
+
+} // extern "C"

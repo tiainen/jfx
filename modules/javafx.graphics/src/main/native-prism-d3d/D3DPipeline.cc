@@ -28,31 +28,6 @@
 #include "D3DPipelineManager.h"
 
 
-#ifdef STATIC_BUILD
-extern "C" {
-
-JNIEXPORT jint JNICALL JNI_OnLoad_prism_d3d(JavaVM *jvm, void *reserved)
-{
-fprintf(stderr, "[JSDBG] A\n");
-#ifdef JNI_VERSION_1_8
-    //min. returned JNI_VERSION required by JDK8 for builtin libraries
-    JNIEnv *env;
-    if (jvm->GetEnv((void **)&env, JNI_VERSION_1_8) != JNI_OK) {
-        fprintf(stderr, "[JSDBG] B\n");
-        return JNI_VERSION_1_4;
-    }
-    fprintf(stderr, "[JSDBG] C\n");
-    return JNI_VERSION_1_8;
-#else
-    fprintf(stderr, "[JSDBG] D\n");
-    return JNI_VERSION_1_4;
-#endif
-}
-
-} // extern "C"
-#endif // STATIC_BUILD
-
-
 // d3d9.dll library dynamic load
 HMODULE hLibD3D9 = 0;
 typedef IDirect3D9 * WINAPI FnDirect3DCreate9(UINT SDKVersion);
