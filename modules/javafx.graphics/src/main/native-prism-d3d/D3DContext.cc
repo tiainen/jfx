@@ -1327,12 +1327,12 @@ IDirect3DTexture9 *D3DContext::getTextureCache(int formatIndex, D3DFORMAT format
 #ifdef STATIC_BUILD
 extern "C" {
 
-JNIEXPORT jint JNICALL JNI_OnLoad_prism_d3d(JavaVM *vm, void *reserved)
+JNIEXPORT jint JNICALL JNI_OnLoad_prism_d3d(JavaVM *jvm, void *reserved)
 {
 #ifdef JNI_VERSION_1_8
     //min. returned JNI_VERSION required by JDK8 for builtin libraries
     JNIEnv *env;
-    if ((*vm)->GetEnv(vm, (void **)&env, JNI_VERSION_1_8) != JNI_OK) {
+    if (jvm->GetEnv((void **)&env, JNI_VERSION_1_8) != JNI_OK) {
         return JNI_VERSION_1_4;
     }
     return JNI_VERSION_1_8;
