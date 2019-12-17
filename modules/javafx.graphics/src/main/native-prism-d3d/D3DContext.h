@@ -25,8 +25,6 @@
 
 #pragma once
 
-#include <jni.h>
-
 #include "D3DPipeline.h"
 #include "D3DResourceManager.h"
 #include "D3DPhongShader.h"
