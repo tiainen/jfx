@@ -51,7 +51,7 @@
     } while (0)
 
 #ifdef STATIC_BUILD
-JNIEXPORT jint JNICALL JNI_OnLoad_javafx_font(JavaVM *jvm, void *reserved)
+JNIEXPORT jint JNICALL JNI_OnLoad_javafx_font(JavaVM *jvm, void *reserved) {
 fprintf(stderr, "[JSDBG] javafx_font A\n");
 #ifdef JNI_VERSION_1_8
     JNIEnv *env;
