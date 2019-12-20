@@ -34,6 +34,24 @@
 
 #include <com_sun_javafx_font_directwrite_OS.h>
 
+#ifdef STATIC_BUILD
+JNIEXPORT jint JNICALL JNI_OnLoad_javafx_font(JavaVM *jvm, void *reserved)
+fprintf(stderr, "[JSDBG] javafx_font A\n");
+#ifdef JNI_VERSION_1_8
+    JNIEnv *env;
+    if (jvm->GetEnv((void **)&env, JNI_VERSION_1_8) != JNI_OK) {
+        fprintf(stderr, "[JSDBG] javafx_font B\n");
+        return JNI_VERSION_1_4;
+    }
+    fprintf(stderr, "[JSDBG] javafx_font C\n");
+    return JNI_VERSION_1_8;
+#else
+    fprintf(stderr, "[JSDBG] javafx_font D\n");
+    return JNI_VERSION_1_4;
+#endif
+}
+#endif // STATIC_BUILD
+
 #define OS_NATIVE(func) Java_com_sun_javafx_font_directwrite_OS_##func
 
 /* DirectWrite is not available on all platforms. */
