@@ -159,21 +159,33 @@ final class WinApplication extends Application implements InvokeLaterDispatcher.
             .doPrivileged((PrivilegedAction<Boolean>) () -> Boolean.getBoolean("javafx.embed.isEventThread"));
         int awareness = getDesiredAwarenesslevel();
 
+        System.err.println("[JSDBG] WinApplication.java A");
         ClassLoader classLoader = WinApplication.class.getClassLoader();
         _setClassLoader(classLoader);
+        System.err.println("[JSDBG] WinApplication.java B");
 
         if (isEventThread) {
+            System.err.println("[JSDBG] WinApplication.java C");
             _init(awareness);
+            System.err.println("[JSDBG] WinApplication.java D");
             setEventThread(Thread.currentThread());
+            System.err.println("[JSDBG] WinApplication.java E");
             launchable.run();
+            System.err.println("[JSDBG] WinApplication.java F");
             return;
         }
+        System.err.println("[JSDBG] WinApplication.java G");
         final Thread toolkitThread =
             AccessController.doPrivileged((PrivilegedAction<Thread>) () -> new Thread(() -> {
+                System.err.println("[JSDBG] WinApplication.java K");
                 _init(awareness);
+                System.err.println("[JSDBG] WinApplication.java L");
                 _runLoop(launchable);
+                System.err.println("[JSDBG] WinApplication.java M");
             }, "WindowsNativeRunloopThread"));
+        System.err.println("[JSDBG] WinApplication.java H");
         setEventThread(toolkitThread);
+        System.err.println("[JSDBG] WinApplication.java J");
         toolkitThread.start();
     }
 

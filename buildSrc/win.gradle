@@ -121,7 +121,7 @@ if (IS_STATIC_BUILD) ccFlags.add("/DSTATIC_BUILD");
 
 def dynamicLinkFlags = ["/nologo", "/dll", "/manifest", "/opt:REF", "/incremental:no", "/dynamicbase", "/nxcompat"]
 
-def staticLinkFlags = [].flatten()
+def staticLinkFlags = ["/nologo"].flatten()
 
 def linkFlags = IS_STATIC_BUILD ? staticLinkFlags : dynamicLinkFlags
 

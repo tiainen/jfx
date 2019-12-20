@@ -459,20 +459,28 @@ JNIEXPORT void JNICALL Java_com_sun_glass_ui_win_WinApplication__1setClassLoader
 JNIEXPORT void JNICALL Java_com_sun_glass_ui_win_WinApplication__1runLoop
   (JNIEnv * env, jobject self, jobject jLaunchable)
 {
+    fprintf(stderr, "[JSDBG] GlassApplication.runLoop() A");
     OLEHolder _ole_;
     if (jLaunchable != NULL) {
+        fprintf(stderr, "[JSDBG] GlassApplication.runLoop() B");
         env->CallVoidMethod(jLaunchable, javaIDs.Runnable.run);
+        fprintf(stderr, "[JSDBG] GlassApplication.runLoop() C");
         CheckAndClearException(env);
     }
+    fprintf(stderr, "[JSDBG] GlassApplication.runLoop() D");
 
     MSG msg;
     // The GlassApplication instance may be destroyed in a nested loop.
     // Note that we leave the WM_QUIT message on the queue but who cares?
     while (GlassApplication::GetInstance() && ::GetMessage(&msg, NULL, 0, 0) > 0) {
+        fprintf(stderr, "[JSDBG] GlassApplication.runLoop() E");
         ::TranslateMessage(&msg);
+        fprintf(stderr, "[JSDBG] GlassApplication.runLoop() F");
         ::DispatchMessage(&msg);
+        fprintf(stderr, "[JSDBG] GlassApplication.runLoop() G");
     }
 
+    fprintf(stderr, "[JSDBG] GlassApplication.runLoop() H");
     if (GlassApplication::GetAccessibilityCount() > 0 && !IS_WIN8) {
         // Bug in Windows 7. For some reason, JavaFX crashes when the application
         // is shutting down while Narrator (the screen reader) is running. It is
@@ -480,10 +488,15 @@ JNIEXPORT void JNICALL Java_com_sun_glass_ui_win_WinApplication__1runLoop
         // accessible objects are still receiving release messages. Not all the
         // circumstances around this crash are well understood,  but calling
         // GetMessage() one last time fixes the crash.
+        fprintf(stderr, "[JSDBG] GlassApplication.runLoop() I");
         UINT_PTR timerId = ::SetTimer(NULL, NULL, 1000, NULL);
+        fprintf(stderr, "[JSDBG] GlassApplication.runLoop() J");
         ::GetMessage(&msg, NULL, 0, 0);
+        fprintf(stderr, "[JSDBG] GlassApplication.runLoop() K");
         ::KillTimer(NULL, timerId);
+        fprintf(stderr, "[JSDBG] GlassApplication.runLoop() L");
     }
+    fprintf(stderr, "[JSDBG] GlassApplication.runLoop() M");
 }
 
 /*
