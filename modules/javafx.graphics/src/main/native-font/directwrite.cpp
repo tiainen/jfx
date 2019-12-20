@@ -35,6 +35,8 @@
 #include <com_sun_javafx_font_directwrite_OS.h>
 
 #ifdef STATIC_BUILD
+extern "C" {
+
 JNIEXPORT jint JNICALL JNI_OnLoad_javafx_font(JavaVM *jvm, void *reserved)
 fprintf(stderr, "[JSDBG] javafx_font A\n");
 #ifdef JNI_VERSION_1_8
@@ -50,6 +52,8 @@ fprintf(stderr, "[JSDBG] javafx_font A\n");
     return JNI_VERSION_1_4;
 #endif
 }
+
+} // extern "C"
 #endif // STATIC_BUILD
 
 #define OS_NATIVE(func) Java_com_sun_javafx_font_directwrite_OS_##func
