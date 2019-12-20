@@ -426,17 +426,27 @@ JNIEXPORT jlong JNICALL Java_com_sun_glass_ui_win_WinApplication__1init
     // any system calls that might depend on it.  The downside is losing
     // the ability to control the awareness level programmatically via
     // property settings.
+    fprintf(stderr, "[JSDBG] GlassApplication.init() A");
     if (IS_WINVISTA) {
+        fprintf(stderr, "[JSDBG] GlassApplication.init() B");
         GlassScreen::LoadDPIFuncs(awareRequested);
+        fprintf(stderr, "[JSDBG] GlassApplication.init() C");
     }
+
+    fprintf(stderr, "[JSDBG] GlassApplication.init() D");
 
     GlassApplication *pApp = new GlassApplication(_this);
 
+    fprintf(stderr, "[JSDBG] GlassApplication.init() E");
+
     HWND hWnd = GlassApplication::GetToolkitHWND();
+    fprintf(stderr, "[JSDBG] GlassApplication.init() F");
     if (hWnd == NULL) {
+        fprintf(stderr, "[JSDBG] GlassApplication.init() G");
         delete pApp;
     }
 
+    fprintf(stderr, "[JSDBG] GlassApplication.init() H");
     return (jlong)hWnd;
 }
 
