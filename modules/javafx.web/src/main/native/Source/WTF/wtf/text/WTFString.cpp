@@ -99,8 +99,10 @@ void String::append(const String& otherString)
 
     auto length = m_impl->length();
     auto otherLength = otherString.m_impl->length();
-    if (otherLength > MaxLength - length)
+    if (otherLength > MaxLength - length) {
+        fprintf(stderr, "CRASHING from WTFString.cpp:104::append() length = %d, otherLength = %d\n", length, otherLength);
         CRASH();
+    }
 
     if (m_impl->is8Bit() && otherString.m_impl->is8Bit()) {
         LChar* data;
@@ -129,8 +131,10 @@ void String::append(LChar character)
         append(static_cast<UChar>(character));
         return;
     }
-    if (m_impl->length() >= MaxLength)
+    if (m_impl->length() >= MaxLength) {
+        fprintf(stderr, "CRASHING from WTFString.cpp:136::append() length = %d\n", m_impl->length());
         CRASH();
+    }
     LChar* data;
     auto newImpl = StringImpl::createUninitialized(m_impl->length() + 1, data);
     StringImpl::copyCharacters(data, m_impl->characters8(), m_impl->length());
@@ -150,8 +154,10 @@ void String::append(UChar character)
         append(static_cast<LChar>(character));
         return;
     }
-    if (m_impl->length() >= MaxLength)
+    if (m_impl->length() >= MaxLength) {
+        fprintf(stderr, "CRASHING from WTFString.cpp:159::append() length = %d\n", m_impl->length());
         CRASH();
+    }
     UChar* data;
     auto newImpl = StringImpl::createUninitialized(m_impl->length() + 1, data);
     StringView(*m_impl).getCharactersWithUpconvert(data);
@@ -183,8 +189,10 @@ void String::insert(const String& string, unsigned position)
         return;
     }
 
-    if (lengthToInsert > MaxLength - length())
+    if (lengthToInsert > MaxLength - length()) {
+        fprintf(stderr, "CRASHING from WTFString.cpp:194::insert() length = %d, lengthToInsert = %d\n", length(), lengthToInsert);
         CRASH();
+    }
 
     if (is8Bit() && string.is8Bit()) {
         LChar* data;
@@ -222,8 +230,10 @@ void String::append(const LChar* charactersToAppend, unsigned lengthToAppend)
     unsigned strLength = m_impl->length();
 
     if (m_impl->is8Bit()) {
-        if (lengthToAppend > MaxLength - strLength)
+        if (lengthToAppend > MaxLength - strLength) {
+            fprintf(stderr, "CRASHING from WTFString.cpp:235::append() strLength = %d, lengthToAppend = %d\n", strLength, lengthToAppend);
             CRASH();
+        }
         LChar* data;
         auto newImpl = StringImpl::createUninitialized(strLength + lengthToAppend, data);
         StringImpl::copyCharacters(data, m_impl->characters8(), strLength);
@@ -232,8 +242,10 @@ void String::append(const LChar* charactersToAppend, unsigned lengthToAppend)
         return;
     }
 
-    if (lengthToAppend > MaxLength - strLength)
+    if (lengthToAppend > MaxLength - strLength) {
+        fprintf(stderr, "CRASHING from WTFString.cpp:247::append() strLength = %d, lengthToAppend = %d\n", strLength, lengthToAppend);
         CRASH();
+    }
     UChar* data;
     auto newImpl = StringImpl::createUninitialized(length() + lengthToAppend, data);
     StringImpl::copyCharacters(data, m_impl->characters16(), strLength);
@@ -258,8 +270,10 @@ void String::append(const UChar* charactersToAppend, unsigned lengthToAppend)
     unsigned strLength = m_impl->length();
 
     ASSERT(charactersToAppend);
-    if (lengthToAppend > MaxLength - strLength)
+    if (lengthToAppend > MaxLength - strLength) {
+        fprintf(stderr, "CRASHING from WTFString.cpp:275; strLength = %d, lengthToAppend = %d\n", strLength, lengthToAppend);
         CRASH();
+    }
     UChar* data;
     auto newImpl = StringImpl::createUninitialized(strLength + lengthToAppend, data);
     if (m_impl->is8Bit())
@@ -830,8 +844,10 @@ String String::make16BitFrom8BitSource(const LChar* source, size_t length)
 
 String String::fromUTF8(const LChar* stringStart, size_t length)
 {
-    if (length > MaxLength)
+    if (length > MaxLength) {
+        fprintf(stderr, "CRASHING from WTFString.cpp:849::fromUTF8() length = %d\n", length);
         CRASH();
+    }
 
     if (!stringStart)
         return String();
