@@ -131,9 +131,10 @@ size_t fastMallocGoodSize(size_t bytes)
 void* fastAlignedMalloc(size_t alignment, size_t size)
 {
     ASSERT_IS_WITHIN_LIMIT(size);
-    fprintf(stderr, "[JSY] FastMalloc::fastAlignedMalloc() alignment = %d, size = %d", alignment, size);
     void* p = _aligned_malloc(size, alignment);
-    fprintf(stderr, "[JSY] FastMalloc::fastAlignedMalloc() alignment = %d, size = %d, p = %p", alignment, size, p);
+    if (size > 1024) {
+        fprintf(stderr, "[JSY] FastMalloc::fastAlignedMalloc() alignment = %d, size = %d, p = %p\n", alignment, size, p);
+    }
     if (UNLIKELY(!p)) {
         fprintf(stderr, "CRASHING from FastMalloc.cpp:139::fastAlignedMalloc() alignment = %d, size = %d\n", alignment, size);
         CRASH();
@@ -143,14 +144,16 @@ void* fastAlignedMalloc(size_t alignment, size_t size)
 
 void* tryFastAlignedMalloc(size_t alignment, size_t size)
 {
-    fprintf(stderr, "[JSY] FastMalloc::tryFastAlignedMalloc() alignment = %d, size = %d", alignment, size);
+    if (size > 1024) {
+        fprintf(stderr, "[JSY] FastMalloc::tryFastAlignedMalloc() alignment = %d, size = %d\n", alignment, size);
+    }
     FAIL_IF_EXCEEDS_LIMIT(size);
     return _aligned_malloc(size, alignment);
 }
 
 void fastAlignedFree(void* p)
 {
-    fprintf(stderr, "[JSY] FastMalloc::fastAlignedFree() p = %p", p);
+    fprintf(stderr, "[JSY] FastMalloc::fastAlignedFree() p = %p\n", p);
     _aligned_free(p);
 }
 
@@ -185,17 +188,20 @@ void fastAlignedFree(void* p)
 
 TryMallocReturnValue tryFastMalloc(size_t n)
 {
-    fprintf(stderr, "[JSY] FastMalloc::tryFastMalloc() n = %d", n);
+    if (n > 1024) {
+        fprintf(stderr, "[JSY] FastMalloc::tryFastMalloc() n = %d\n", n);
+    }
     FAIL_IF_EXCEEDS_LIMIT(n);
     return malloc(n);
 }
 
 void* fastMalloc(size_t n)
 {
-    fprintf(stderr, "[JSY] FastMalloc::fastMalloc() n = %d", n);
     ASSERT_IS_WITHIN_LIMIT(n);
     void* result = malloc(n);
-    fprintf(stderr, "[JSY] FastMalloc::fastMalloc() n = %d, result = %p", n, result);
+    if (n > 1024) {
+        fprintf(stderr, "[JSY] FastMalloc::fastMalloc() n = %d, result = %p\n", n, result);
+    }
     if (!result) {
         fprintf(stderr, "CRASHING from FastMalloc.cpp:194::fastMalloc(), n = %d\n", n);
         CRASH();
@@ -206,6 +212,9 @@ void* fastMalloc(size_t n)
 
 TryMallocReturnValue tryFastCalloc(size_t n_elements, size_t element_size)
 {
+    if (n_elements * element_size > 1024) {
+        fprintf(stderr, "[JSY] FastMalloc::tryFastCalloc() n_elements = %d, element_size = %d\n", n_elements, element_size);
+    }
     FAIL_IF_EXCEEDS_LIMIT(n_elements * element_size);
     return calloc(n_elements, element_size);
 }
@@ -214,6 +223,9 @@ void* fastCalloc(size_t n_elements, size_t element_size)
 {
     ASSERT_IS_WITHIN_LIMIT(n_elements * element_size);
     void* result = calloc(n_elements, element_size);
+    if (n_elements * element_size > 1024) {
+        fprintf(stderr, "[JSY] FastMalloc::fastCalloc() n_elements = %d, element_size = %d, result = %p\n", n_elements, element_size, result);
+    }
     if (!result) {
         fprintf(stderr, "CRASHING from FastMalloc.cpp:212::fastCalloc() n_elements = %d, element_size = %d\n", n_elements, element_size);
         CRASH();
@@ -224,7 +236,7 @@ void* fastCalloc(size_t n_elements, size_t element_size)
 
 void fastFree(void* p)
 {
-    fprintf(stderr, "[JSY] FastMalloc::fastFree() p = %p", p);
+    fprintf(stderr, "[JSY] FastMalloc::fastFree() p = %p\n", p);
     free(p);
 }
 
@@ -232,6 +244,9 @@ void* fastRealloc(void* p, size_t n)
 {
     ASSERT_IS_WITHIN_LIMIT(n);
     void* result = realloc(p, n);
+    if (n > 1024) {
+        fprintf(stderr, "[JSY] FastMalloc::fastRealloc() n = %d, p = %d, result = %p\n", n, p, result);
+    }
     if (!result) {
         fprintf(stderr, "CRASHING from FastMalloc.cpp:229::fastRealloc(), n = %d\n", n);
         CRASH();
