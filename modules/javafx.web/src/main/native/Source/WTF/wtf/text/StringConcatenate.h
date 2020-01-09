@@ -301,8 +301,10 @@ template<typename... StringTypes>
 String makeString(StringTypes... strings)
 {
     String result = tryMakeString(strings...);
-    if (!result)
+    if (!result) {
+        fprintf(stderr, "CRASHING from StringConcatenate.h:306::makeString()\n");
         CRASH();
+    }
     return result;
 }
 

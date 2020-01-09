@@ -990,8 +990,10 @@ inline Ref<StringImpl> StringImpl::adopt(Vector<CharacterType, inlineCapacity, O
 {
     if (size_t size = vector.size()) {
         ASSERT(vector.data());
-        if (size > MaxLength)
+        if (size > MaxLength) {
+            fprintf(stderr, "CRASHING from StringImpl.h:995::adopt(), size = %d\n", size);
             CRASH();
+        }
         return adoptRef(*new StringImpl(vector.releaseBuffer(), size));
     }
     return *empty();

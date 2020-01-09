@@ -34,8 +34,10 @@ public:
     operator String() const
     {
         String result = tryMakeString(m_string1, m_string2);
-        if (!result)
+        if (!result) {
+            fprintf(stderr, "CRASHING from StringOperators.h:39::operator String()\n");
             CRASH();
+        }
         return result;
     }
 
