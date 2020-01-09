@@ -1324,7 +1324,7 @@ Ref<StringImpl> StringImpl::replace(unsigned position, unsigned lengthToReplace,
         return *this;
 
     if ((length() - lengthToReplace) >= (MaxLength - lengthToInsert)) {
-        fprintf(stderr, "CRASHING from StringImpl.cpp:1328::replace() length = %d, lengthToReplace = %d, lengthToInsert = %d\n", length, lengthToReplace, lengthToInsert);
+        fprintf(stderr, "CRASHING from StringImpl.cpp:1328::replace() length() = %d, lengthToReplace = %d, lengthToInsert = %d\n", length(), lengthToReplace, lengthToInsert);
         CRASH();
     }
 
