@@ -153,7 +153,7 @@ void* tryFastAlignedMalloc(size_t alignment, size_t size)
 
 void fastAlignedFree(void* p)
 {
-//    fprintf(stderr, "[JSY] FastMalloc::fastAlignedFree() p = %p\n", p);
+    fprintf(stderr, "[JSY] FastMalloc::fastAlignedFree() p = %p\n", p);
     _aligned_free(p);
 }
 
@@ -186,11 +186,12 @@ void fastAlignedFree(void* p)
 
 TryMallocReturnValue tryFastMalloc(size_t n)
 {
-    if (n >= 8192) {
-        fprintf(stderr, "[JSY] FastMalloc::tryFastMalloc() n = %d\n", n);
-    }
     FAIL_IF_EXCEEDS_LIMIT(n);
-    return malloc(n);
+    void* result = malloc(n);
+    if (n >= 8192) {
+        fprintf(stderr, "[JSY] FastMalloc::tryFastMalloc() n = %d, result = %p\n", n, result);
+    }
+    return result;
 }
 
 void* fastMalloc(size_t n)
@@ -234,7 +235,7 @@ void* fastCalloc(size_t n_elements, size_t element_size)
 
 void fastFree(void* p)
 {
-//    fprintf(stderr, "[JSY] FastMalloc::fastFree() p = %p\n", p);
+    fprintf(stderr, "[JSY] FastMalloc::fastFree() p = %p\n", p);
     free(p);
 }
 
