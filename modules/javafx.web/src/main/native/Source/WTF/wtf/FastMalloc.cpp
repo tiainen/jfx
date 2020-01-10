@@ -184,6 +184,21 @@ void fastAlignedFree(void* p)
 
 #endif // OS(WINDOWS)
 
+void checkMemorySize() {
+    size_t size = 1024 * 1024;
+    do {
+        void* allocated = malloc(size);
+        if (allocated) {
+            fastFree(allocated);
+        } else {
+            break;
+        }
+        size *= 2;
+    } while (true);
+
+    fprintf(stderr, "[JSY] could malloc() at least %d bytes", size);
+}
+
 TryMallocReturnValue tryFastMalloc(size_t n)
 {
     if (n > 1024 * 1024) {
@@ -215,21 +230,6 @@ void* fastMalloc(size_t n)
     }
 
     return result;
-}
-
-void checkMemorySize() {
-    size_t size = 1024 * 1024;
-    do {
-        void* allocated = malloc(size);
-        if (allocated) {
-            fastFree(allocated);
-        } else {
-            break;
-        }
-        size *= 2;
-    } while (true);
-
-    fprintf(stderr, "[JSY] could malloc() at least %d bytes", size);
 }
 
 TryMallocReturnValue tryFastCalloc(size_t n_elements, size_t element_size)
@@ -267,7 +267,7 @@ void* fastRealloc(void* p, size_t n)
     ASSERT_IS_WITHIN_LIMIT(n);
     void* result = realloc(p, n);
     if (n >= 8192) {
-        fprintf(stderr, "[JSY] FastMalloc::fastRealloc() n = %d, p = %d, result = %p\n", n, p, result);
+        fprintf(stderr, "[JSY] FastMalloc::fastRealloc() n = %d, p = %p, result = %p\n", n, p, result);
     }
     if (!result) {
         fprintf(stderr, "CRASHING from FastMalloc.cpp:229::fastRealloc(), n = %d\n", n);
