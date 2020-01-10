@@ -121,12 +121,12 @@ if (IS_STATIC_BUILD) ccFlags.add("/DSTATIC_BUILD");
 
 def dynamicLinkFlags = ["/nologo", "/dll", "/manifest", "/opt:REF", "/incremental:no", "/dynamicbase", "/nxcompat"]
 
+if (!IS_64) dynamicLinkFlags.add("/safeseh");
+if (IS_DEBUG_NATIVE) dynamicLinkFlags.add("/debug");
+
 def staticLinkFlags = ["/nologo"].flatten()
 
 def linkFlags = IS_STATIC_BUILD ? staticLinkFlags : dynamicLinkFlags
-
-if (!IS_64) linkFlags.add("/safeseh");
-if (IS_DEBUG_NATIVE) linkFlags.add("/debug");
 
 // Remove C++ static linking if not on VS2010
 if (WINDOWS_VS_VER != "100") {
