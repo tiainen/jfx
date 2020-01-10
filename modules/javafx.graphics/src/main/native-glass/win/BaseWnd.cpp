@@ -78,12 +78,16 @@ BaseWnd* BaseWnd::FromHandle(HWND hWnd)
 HWND BaseWnd::Create(HWND hParent, int x, int y, int width, int height,
         LPCTSTR lpWindowName, DWORD dwExStyle, DWORD dwStyle, HBRUSH hbrBackground)
 {
+    fprintf(stderr, "[JSDBG] BaseWnd.Create() A\n");
     HINSTANCE hInst = ::GetModuleHandle(NULL);
+    fprintf(stderr, "[JSDBG] BaseWnd.Create() B\n");
     TCHAR szClassName[256];
+    fprintf(stderr, "[JSDBG] BaseWnd.Create() C\n");
 
     ::ZeroMemory(szClassName, sizeof(szClassName));
     _stprintf_s(szClassName, sizeof(szClassName)/sizeof(szClassName[0]),
             _T("GlassWndClass-%s-%u"), GetWindowClassNameSuffix(), ++BaseWnd::sm_classNameCounter);
+    fprintf(stderr, "[JSDBG] BaseWnd.Create() D\n");
 
     WNDCLASSEX wndcls;
     wndcls.cbSize           = sizeof(WNDCLASSEX);
@@ -98,25 +102,36 @@ HWND BaseWnd::Create(HWND hParent, int x, int y, int width, int height,
     wndcls.lpszMenuName     = NULL;
     wndcls.lpszClassName    = szClassName;
     wndcls.hIconSm          = NULL;
+    fprintf(stderr, "[JSDBG] BaseWnd.Create() E\n");
 
     m_hCursor               = wndcls.hCursor;
 
     m_wndClassAtom = ::RegisterClassEx(&wndcls);
+    fprintf(stderr, "[JSDBG] BaseWnd.Create() F\n");
 
     if (!m_wndClassAtom) {
+        fprintf(stderr, "[JSDBG] BaseWnd.Create() G\n");
         _tprintf_s(L"BaseWnd::RegisterClassEx(%s) error: %u\n", szClassName, ::GetLastError());
     } else {
+        fprintf(stderr, "[JSDBG] BaseWnd.Create() H\n");
         if (lpWindowName == NULL) {
             lpWindowName = TEXT("");
         }
+        fprintf(stderr, "[JSDBG] BaseWnd.Create() I\n");
         ::CreateWindowEx(dwExStyle, szClassName, lpWindowName,
                 dwStyle, x, y, width, height, hParent,
                 NULL, hInst, (void *)this);
+        fprintf(stderr, "[JSDBG] BaseWnd.Create() J\n");
 
         if (GetHWND() == NULL) {
+            fprintf(stderr, "[JSDBG] BaseWnd.Create() K\n");
             _tprintf_s(L"BaseWnd::Create(%s) error: %u\n", szClassName, ::GetLastError());
         }
+
+        fprintf(stderr, "[JSDBG] BaseWnd.Create() L\n");
     }
+
+    fprintf(stderr, "[JSDBG] BaseWnd.Create() M: m_hWnd = %d\n", m_hWnd);
 
     return m_hWnd;
 

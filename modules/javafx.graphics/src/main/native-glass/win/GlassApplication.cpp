@@ -102,12 +102,18 @@ jclass GlassApplication::ClassForName(JNIEnv *env, char *className)
 
 GlassApplication::GlassApplication(jobject jrefThis) : BaseWnd()
 {
+    fprintf(stderr, "[JSDBG] GlassApplication.GlassApplication() A\n");
     m_grefThis = GetEnv()->NewGlobalRef(jrefThis);
+    fprintf(stderr, "[JSDBG] GlassApplication.GlassApplication() B\n");
     m_clipboard = NULL;
+    fprintf(stderr, "[JSDBG] GlassApplication.GlassApplication() C\n");
     m_hNextClipboardView = NULL;
+    fprintf(stderr, "[JSDBG] GlassApplication.GlassApplication() D\n");
     m_mainThreadId = ::GetCurrentThreadId();
+    fprintf(stderr, "[JSDBG] GlassApplication.GlassApplication() E: m_mainThreadId = %d\n", m_mainThreadId);
 
     Create(NULL, 0, 0, 400, 300, TEXT(""), 0, 0, NULL);
+    fprintf(stderr, "[JSDBG] GlassApplication.GlassApplication() F\n");
 }
 
 GlassApplication::~GlassApplication()
@@ -358,18 +364,14 @@ extern "C" {
 #ifdef STATIC_BUILD
 JNIEXPORT jint JNICALL JNI_OnLoad_glass(JavaVM *jvm, void *reserved)
 {
-fprintf(stderr, "[JSDBG] glass A\n");
 #ifdef JNI_VERSION_1_8
     //min. returned JNI_VERSION required by JDK8 for builtin libraries
     JNIEnv *env;
     if (jvm->GetEnv((void **)&env, JNI_VERSION_1_8) != JNI_OK) {
-        fprintf(stderr, "[JSDBG] glass B\n");
         return JNI_VERSION_1_4;
     }
-    fprintf(stderr, "[JSDBG] glass C\n");
     return JNI_VERSION_1_8;
 #else
-    fprintf(stderr, "[JSDBG] glass D\n");
     return JNI_VERSION_1_4;
 #endif
 }
@@ -426,27 +428,27 @@ JNIEXPORT jlong JNICALL Java_com_sun_glass_ui_win_WinApplication__1init
     // any system calls that might depend on it.  The downside is losing
     // the ability to control the awareness level programmatically via
     // property settings.
-    fprintf(stderr, "[JSDBG] GlassApplication.init() A");
+    fprintf(stderr, "[JSDBG] GlassApplication.init() A\n");
     if (IS_WINVISTA) {
-        fprintf(stderr, "[JSDBG] GlassApplication.init() B");
+        fprintf(stderr, "[JSDBG] GlassApplication.init() B\n");
         GlassScreen::LoadDPIFuncs(awareRequested);
-        fprintf(stderr, "[JSDBG] GlassApplication.init() C");
+        fprintf(stderr, "[JSDBG] GlassApplication.init() C\n");
     }
 
-    fprintf(stderr, "[JSDBG] GlassApplication.init() D");
+    fprintf(stderr, "[JSDBG] GlassApplication.init() D\n");
 
     GlassApplication *pApp = new GlassApplication(_this);
 
-    fprintf(stderr, "[JSDBG] GlassApplication.init() E");
+    fprintf(stderr, "[JSDBG] GlassApplication.init() E\n");
 
     HWND hWnd = GlassApplication::GetToolkitHWND();
-    fprintf(stderr, "[JSDBG] GlassApplication.init() F");
+    fprintf(stderr, "[JSDBG] GlassApplication.init() F\n");
     if (hWnd == NULL) {
-        fprintf(stderr, "[JSDBG] GlassApplication.init() G");
+        fprintf(stderr, "[JSDBG] GlassApplication.init() G\n");
         delete pApp;
     }
 
-    fprintf(stderr, "[JSDBG] GlassApplication.init() H");
+    fprintf(stderr, "[JSDBG] GlassApplication.init() H\n");
     return (jlong)hWnd;
 }
 
