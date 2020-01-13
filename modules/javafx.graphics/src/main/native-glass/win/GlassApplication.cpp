@@ -102,18 +102,12 @@ jclass GlassApplication::ClassForName(JNIEnv *env, char *className)
 
 GlassApplication::GlassApplication(jobject jrefThis) : BaseWnd()
 {
-    fprintf(stderr, "[JSDBG] GlassApplication.GlassApplication() A: GetEnv() = %p\n", GetEnv());
     m_grefThis = GetEnv()->NewGlobalRef(jrefThis);
-    fprintf(stderr, "[JSDBG] GlassApplication.GlassApplication() B\n");
     m_clipboard = NULL;
-    fprintf(stderr, "[JSDBG] GlassApplication.GlassApplication() C\n");
     m_hNextClipboardView = NULL;
-    fprintf(stderr, "[JSDBG] GlassApplication.GlassApplication() D\n");
     m_mainThreadId = ::GetCurrentThreadId();
-    fprintf(stderr, "[JSDBG] GlassApplication.GlassApplication() E: m_mainThreadId = %d\n", m_mainThreadId);
 
     Create(NULL, 0, 0, 400, 300, TEXT(""), 0, 0, NULL);
-    fprintf(stderr, "[JSDBG] GlassApplication.GlassApplication() F\n");
 }
 
 GlassApplication::~GlassApplication()
@@ -412,27 +406,17 @@ JNIEXPORT jlong JNICALL Java_com_sun_glass_ui_win_WinApplication__1init
     // any system calls that might depend on it.  The downside is losing
     // the ability to control the awareness level programmatically via
     // property settings.
-    fprintf(stderr, "[JSDBG] GlassApplication.init() A\n");
     if (IS_WINVISTA) {
-        fprintf(stderr, "[JSDBG] GlassApplication.init() B\n");
         GlassScreen::LoadDPIFuncs(awareRequested);
-        fprintf(stderr, "[JSDBG] GlassApplication.init() C\n");
     }
-
-    fprintf(stderr, "[JSDBG] GlassApplication.init() D\n");
 
     GlassApplication *pApp = new GlassApplication(_this);
 
-    fprintf(stderr, "[JSDBG] GlassApplication.init() E\n");
-
     HWND hWnd = GlassApplication::GetToolkitHWND();
-    fprintf(stderr, "[JSDBG] GlassApplication.init() F\n");
     if (hWnd == NULL) {
-        fprintf(stderr, "[JSDBG] GlassApplication.init() G\n");
         delete pApp;
     }
 
-    fprintf(stderr, "[JSDBG] GlassApplication.init() H\n");
     return (jlong)hWnd;
 }
 
@@ -469,14 +453,11 @@ JNIEXPORT void JNICALL Java_com_sun_glass_ui_win_WinApplication__1runLoop
     // The GlassApplication instance may be destroyed in a nested loop.
     // Note that we leave the WM_QUIT message on the queue but who cares?
     while (GlassApplication::GetInstance() && ::GetMessage(&msg, NULL, 0, 0) > 0) {
-        fprintf(stderr, "[JSDBG] GlassApplication.runLoop() E");
         ::TranslateMessage(&msg);
-        fprintf(stderr, "[JSDBG] GlassApplication.runLoop() F");
         ::DispatchMessage(&msg);
-        fprintf(stderr, "[JSDBG] GlassApplication.runLoop() G");
     }
 
-    fprintf(stderr, "[JSDBG] GlassApplication.runLoop() H");
+    fprintf(stderr, "[JSDBG] GlassApplication.runLoop() E");
     if (GlassApplication::GetAccessibilityCount() > 0 && !IS_WIN8) {
         // Bug in Windows 7. For some reason, JavaFX crashes when the application
         // is shutting down while Narrator (the screen reader) is running. It is
@@ -484,15 +465,15 @@ JNIEXPORT void JNICALL Java_com_sun_glass_ui_win_WinApplication__1runLoop
         // accessible objects are still receiving release messages. Not all the
         // circumstances around this crash are well understood,  but calling
         // GetMessage() one last time fixes the crash.
-        fprintf(stderr, "[JSDBG] GlassApplication.runLoop() I");
+        fprintf(stderr, "[JSDBG] GlassApplication.runLoop() Ea");
         UINT_PTR timerId = ::SetTimer(NULL, NULL, 1000, NULL);
-        fprintf(stderr, "[JSDBG] GlassApplication.runLoop() J");
+        fprintf(stderr, "[JSDBG] GlassApplication.runLoop() Eb");
         ::GetMessage(&msg, NULL, 0, 0);
-        fprintf(stderr, "[JSDBG] GlassApplication.runLoop() K");
+        fprintf(stderr, "[JSDBG] GlassApplication.runLoop() Ec");
         ::KillTimer(NULL, timerId);
-        fprintf(stderr, "[JSDBG] GlassApplication.runLoop() L");
+        fprintf(stderr, "[JSDBG] GlassApplication.runLoop() Ed");
     }
-    fprintf(stderr, "[JSDBG] GlassApplication.runLoop() M");
+    fprintf(stderr, "[JSDBG] GlassApplication.runLoop() F");
 }
 
 /*

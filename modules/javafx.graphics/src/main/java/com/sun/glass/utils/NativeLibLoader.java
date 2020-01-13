@@ -112,6 +112,10 @@ public class NativeLibLoader {
     }
 
     private static void loadLibraryInternal(String libraryName, List<String> dependencies, Class caller) {
+        if (verbose) {
+            System.err.println("Loading library " + libraryName + "...");
+        }
+
         // The search order for native library loading is:
         // - try to load the native library from the same folder as this jar
         //   (only on non-modular builds)
