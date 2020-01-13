@@ -143,9 +143,7 @@ LRESULT GlassApplication::WindowProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
     switch (msg) {
         case WM_DO_ACTION:
-            fprintf(stderr, "GlassApplication::WindowProc(WM_DO_ACTION)\n");
         case WM_DO_ACTION_LATER:
-            fprintf(stderr, "GlassApplication::WindowProc(WM_DO_ACTION_LATER)\n");
             {
                 Action * action = (Action *)wParam;
                 action->Do();

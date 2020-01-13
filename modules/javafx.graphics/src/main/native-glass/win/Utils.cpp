@@ -51,7 +51,6 @@ jboolean CheckAndClearException(JNIEnv* env)
 {
     jthrowable t = env->ExceptionOccurred();
     if (!t) {
-        fprintf(stderr, "Utils::CheckAndClearException: false");
         return JNI_FALSE;
     }
     env->ExceptionClear();
