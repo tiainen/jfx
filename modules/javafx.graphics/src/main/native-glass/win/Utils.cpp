@@ -51,22 +51,26 @@ jboolean CheckAndClearException(JNIEnv* env)
 {
     jthrowable t = env->ExceptionOccurred();
     if (!t) {
+        fprintf(stderr, "Utils::CheckAndClearException: false");
         return JNI_FALSE;
     }
     env->ExceptionClear();
 
     jclass cls = env->FindClass("com/sun/glass/ui/Application");
     if (env->ExceptionOccurred()) {
+        fprintf(stderr, "Utils::CheckAndClearException: true [1]");
         env->ExceptionClear();
         return JNI_TRUE;
     }
     env->CallStaticVoidMethod(cls, javaIDs.Application.reportExceptionMID, t);
     if (env->ExceptionOccurred()) {
+        fprintf(stderr, "Utils::CheckAndClearException: true [2]");
         env->ExceptionClear();
         return JNI_TRUE;
     }
     env->DeleteLocalRef(cls);
 
+    fprintf(stderr, "Utils::CheckAndClearException: true [2]");
     return JNI_TRUE;
 }
 

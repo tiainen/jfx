@@ -143,7 +143,9 @@ LRESULT GlassApplication::WindowProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
     switch (msg) {
         case WM_DO_ACTION:
+            fprintf(stderr, "GlassApplication::WindowProc(WM_DO_ACTION)\n");
         case WM_DO_ACTION_LATER:
+            fprintf(stderr, "GlassApplication::WindowProc(WM_DO_ACTION_LATER)\n");
             {
                 Action * action = (Action *)wParam;
                 action->Do();
@@ -153,20 +155,24 @@ LRESULT GlassApplication::WindowProc(UINT msg, WPARAM wParam, LPARAM lParam)
             }
             return 0;
         case WM_CREATE:
+            fprintf(stderr, "GlassApplication::WindowProc(WM_CREATE)\n");
             pInstance = this;
             STRACE(_T("GlassApplication: created."));
             break;
         case WM_DESTROY:
             //Alarm clipboard dispose if any.
             //Please, use RegisterClipboardViewer(NULL) instead of UnregisterClipboardViewer.
+            fprintf(stderr, "GlassApplication::WindowProc(WM_DESTROY)\n");
             RegisterClipboardViewer(NULL);
             return 0;
         case WM_NCDESTROY:
             // pInstance is deleted in BaseWnd::StaticWindowProc
+            fprintf(stderr, "GlassApplication::WindowProc(WM_NCDESTROY)\n");
             pInstance = NULL;
             STRACE(_T("GlassApplication: destroyed."));
             return 0;
         case WM_CHANGECBCHAIN:
+            fprintf(stderr, "GlassApplication::WindowProc(WM_CHANGECBCHAIN)\n");
             if ((HWND)wParam == m_hNextClipboardView) {
                 m_hNextClipboardView = (HWND)lParam;
             } else if (NULL != m_hNextClipboardView) {
@@ -174,6 +180,7 @@ LRESULT GlassApplication::WindowProc(UINT msg, WPARAM wParam, LPARAM lParam)
             }
             break;
         case WM_DRAWCLIPBOARD:
+            fprintf(stderr, "GlassApplication::WindowProc(WM_DRAWCLIPBOARD)\n");
             if (NULL != m_clipboard) {
                 GetEnv()->CallVoidMethod(m_clipboard, midContentChanged);
                 CheckAndClearException(GetEnv());
@@ -183,17 +190,21 @@ LRESULT GlassApplication::WindowProc(UINT msg, WPARAM wParam, LPARAM lParam)
             }
             break;
         case WM_SETTINGCHANGE:
+            fprintf(stderr, "GlassApplication::WindowProc(WM_SETTINGCHANGE)\n");
             if ((UINT)wParam != SPI_SETWORKAREA) {
                 break;
             }
             // Fall through
         case WM_DISPLAYCHANGE:
+            fprintf(stderr, "GlassApplication::WindowProc(WM_DISPLAYCHANGE)\n");
             GlassScreen::HandleDisplayChange();
             break;
         case WM_THEMECHANGED: {
+            fprintf(stderr, "GlassApplication::WindowProc(WM_THEMECHANGED)\n");
             JNIEnv* env = GetEnv();
             jstring themeName = GlassApplication::GetThemeName(env);
             jboolean result = env->CallBooleanMethod(m_grefThis, javaIDs.Application.notifyThemeChangedMID, themeName);
+            fprintf(stderr, "GlassApplication::WindowProc(WM_THEMECHANGED): %u\n", result);
             if (CheckAndClearException(env)) return 1;
             return !result;
         }
@@ -439,15 +450,15 @@ JNIEXPORT void JNICALL Java_com_sun_glass_ui_win_WinApplication__1setClassLoader
 JNIEXPORT void JNICALL Java_com_sun_glass_ui_win_WinApplication__1runLoop
   (JNIEnv * env, jobject self, jobject jLaunchable)
 {
-    fprintf(stderr, "[JSDBG] GlassApplication.runLoop() A");
+    fprintf(stderr, "[JSDBG] GlassApplication.runLoop() A\n");
     OLEHolder _ole_;
     if (jLaunchable != NULL) {
-        fprintf(stderr, "[JSDBG] GlassApplication.runLoop() B");
+        fprintf(stderr, "[JSDBG] GlassApplication.runLoop() B\n");
         env->CallVoidMethod(jLaunchable, javaIDs.Runnable.run);
-        fprintf(stderr, "[JSDBG] GlassApplication.runLoop() C");
+        fprintf(stderr, "[JSDBG] GlassApplication.runLoop() C\n");
         CheckAndClearException(env);
     }
-    fprintf(stderr, "[JSDBG] GlassApplication.runLoop() D");
+    fprintf(stderr, "[JSDBG] GlassApplication.runLoop() D\n");
 
     MSG msg;
     // The GlassApplication instance may be destroyed in a nested loop.
@@ -457,7 +468,7 @@ JNIEXPORT void JNICALL Java_com_sun_glass_ui_win_WinApplication__1runLoop
         ::DispatchMessage(&msg);
     }
 
-    fprintf(stderr, "[JSDBG] GlassApplication.runLoop() E");
+    fprintf(stderr, "[JSDBG] GlassApplication.runLoop() E\n");
     if (GlassApplication::GetAccessibilityCount() > 0 && !IS_WIN8) {
         // Bug in Windows 7. For some reason, JavaFX crashes when the application
         // is shutting down while Narrator (the screen reader) is running. It is
@@ -465,15 +476,15 @@ JNIEXPORT void JNICALL Java_com_sun_glass_ui_win_WinApplication__1runLoop
         // accessible objects are still receiving release messages. Not all the
         // circumstances around this crash are well understood,  but calling
         // GetMessage() one last time fixes the crash.
-        fprintf(stderr, "[JSDBG] GlassApplication.runLoop() Ea");
+        fprintf(stderr, "[JSDBG] GlassApplication.runLoop() Ea\n");
         UINT_PTR timerId = ::SetTimer(NULL, NULL, 1000, NULL);
-        fprintf(stderr, "[JSDBG] GlassApplication.runLoop() Eb");
+        fprintf(stderr, "[JSDBG] GlassApplication.runLoop() Eb\n");
         ::GetMessage(&msg, NULL, 0, 0);
-        fprintf(stderr, "[JSDBG] GlassApplication.runLoop() Ec");
+        fprintf(stderr, "[JSDBG] GlassApplication.runLoop() Ec\n");
         ::KillTimer(NULL, timerId);
-        fprintf(stderr, "[JSDBG] GlassApplication.runLoop() Ed");
+        fprintf(stderr, "[JSDBG] GlassApplication.runLoop() Ed\n");
     }
-    fprintf(stderr, "[JSDBG] GlassApplication.runLoop() F");
+    fprintf(stderr, "[JSDBG] GlassApplication.runLoop() F\n");
 }
 
 /*
