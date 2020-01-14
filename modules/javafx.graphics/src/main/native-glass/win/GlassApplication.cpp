@@ -240,7 +240,9 @@ LRESULT CALLBACK GlassApplication::MouseLLHook(int nCode, WPARAM wParam, LPARAM 
 
 void GlassApplication::InstallMouseLLHook()
 {
+    fprintf(stderr, "GlassApplication::InstallMouseLLHook() (counter = %d)\n", GlassApplication::sm_mouseLLHookCounter);
     if (++GlassApplication::sm_mouseLLHookCounter == 1) {
+        fprintf(stderr, "GlassApplication::InstallMouseLLHook() HInstance = %d\n", GlassApplication::GetHInstance());
         GlassApplication::sm_hMouseLLHook =
             ::SetWindowsHookEx(WH_MOUSE_LL,
                     (HOOKPROC)GlassApplication::MouseLLHook,
@@ -364,14 +366,15 @@ ULONG GlassApplication::GetAccessibilityCount()
 
 extern "C" {
 
+#ifndef STATIC_BUILD
 BOOL WINAPI DllMain(HANDLE hinstDLL, DWORD dwReason, LPVOID lpvReserved)
 {
-    fprintf(stderr, "GlassApplication::DllMain() dwReason = %d", dwReason);
     if (dwReason == DLL_PROCESS_ATTACH) {
         GlassApplication::SetHInstance((HINSTANCE)hinstDLL);
     }
     return TRUE;
 }
+#endif
 
 /*
  * Class:     com_sun_glass_ui_win_WinApplication
@@ -381,6 +384,13 @@ BOOL WINAPI DllMain(HANDLE hinstDLL, DWORD dwReason, LPVOID lpvReserved)
 JNIEXPORT void JNICALL Java_com_sun_glass_ui_win_WinApplication_initIDs
   (JNIEnv *env, jclass cls, jfloat overrideUIScale)
 {
+#ifdef STATIC_BUILD
+    HINSTANCE hInstExe = ::GetModuleHandle(NULL);
+    HINSTANCE hInstGlass = ::GetModuleHandle("glass");
+    fprintf(stderr, "GlassApplication::_initIDs hInstExe = %d, hInstGlass = %d\n", hInstExe, hInstGlass);
+    GlassApplication::SetHInstance(hInstExe);
+#endif
+
     GlassApplication::overrideUIScale = overrideUIScale;
 
     javaIDs.Application.reportExceptionMID =
