@@ -180,7 +180,7 @@ final class WinApplication extends Application implements InvokeLaterDispatcher.
                 System.err.println("[JSDBG] WinApplication.java L");
                 _init(awareness);
                 System.err.println("[JSDBG] WinApplication.java M...sleeping 10 seconds before starting _runLoop on thread " + Thread.currentThread().getName());
-                Thread.sleep(10000);
+                try {Thread.sleep(10000);}catch(InterruptedException e){e.printStackTrace();}
                 System.err.println("[JSDBG] WinApplication.java N...go runloop!");
                 _runLoop(launchable);
                 System.err.println("[JSDBG] WinApplication.java O...finished runloop");
