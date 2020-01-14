@@ -51,7 +51,7 @@ typedef HRESULT (WINAPI*D2D1CreateFactoryProc)(
   void **factory
 );
 
-jboolean checkAndClearException(JNIEnv* env)
+jboolean font_checkAndClearException(JNIEnv* env)
 {
     jthrowable t = env->ExceptionOccurred();
     if (!t) {
@@ -80,48 +80,48 @@ void cacheDWRITE_GLYPH_METRICSFields(JNIEnv *env)
 {
     if (DWRITE_GLYPH_METRICSFc.cached) return;
     jclass tmpClass = env->FindClass("com/sun/javafx/font/directwrite/DWRITE_GLYPH_METRICS");
-    if (checkAndClearException(env) || !tmpClass) {
+    if (font_checkAndClearException(env) || !tmpClass) {
         fprintf(stderr, "cacheDWRITE_GLYPH_METRICSFields error: JNI exception or tmpClass == NULL");
         return;
     }
     DWRITE_GLYPH_METRICSFc.clazz =  (jclass)env->NewGlobalRef(tmpClass);
     DWRITE_GLYPH_METRICSFc.leftSideBearing = env->GetFieldID(DWRITE_GLYPH_METRICSFc.clazz, "leftSideBearing", "I");
-    if (checkAndClearException(env) || !DWRITE_GLYPH_METRICSFc.leftSideBearing) {
+    if (font_checkAndClearException(env) || !DWRITE_GLYPH_METRICSFc.leftSideBearing) {
         fprintf(stderr, "cacheDWRITE_GLYPH_METRICSFields error: JNI exception or leftSideBearing == NULL");
         return;
     }
     DWRITE_GLYPH_METRICSFc.advanceWidth = env->GetFieldID(DWRITE_GLYPH_METRICSFc.clazz, "advanceWidth", "I");
-    if (checkAndClearException(env) || !DWRITE_GLYPH_METRICSFc.advanceWidth) {
+    if (font_checkAndClearException(env) || !DWRITE_GLYPH_METRICSFc.advanceWidth) {
         fprintf(stderr, "cacheDWRITE_GLYPH_METRICSFields error: JNI exception or advanceWidth == NULL");
         return;
     }
     DWRITE_GLYPH_METRICSFc.rightSideBearing = env->GetFieldID(DWRITE_GLYPH_METRICSFc.clazz, "rightSideBearing", "I");
-    if (checkAndClearException(env) || !DWRITE_GLYPH_METRICSFc.rightSideBearing) {
+    if (font_checkAndClearException(env) || !DWRITE_GLYPH_METRICSFc.rightSideBearing) {
         fprintf(stderr, "cacheDWRITE_GLYPH_METRICSFields error: JNI exception or rightSideBearing == NULL");
         return;
     }
     DWRITE_GLYPH_METRICSFc.topSideBearing = env->GetFieldID(DWRITE_GLYPH_METRICSFc.clazz, "topSideBearing", "I");
-    if (checkAndClearException(env) || !DWRITE_GLYPH_METRICSFc.topSideBearing) {
+    if (font_checkAndClearException(env) || !DWRITE_GLYPH_METRICSFc.topSideBearing) {
         fprintf(stderr, "cacheDWRITE_GLYPH_METRICSFields error: JNI exception or topSideBearing == NULL");
         return;
     }
     DWRITE_GLYPH_METRICSFc.advanceHeight = env->GetFieldID(DWRITE_GLYPH_METRICSFc.clazz, "advanceHeight", "I");
-    if (checkAndClearException(env) || !DWRITE_GLYPH_METRICSFc.advanceHeight) {
+    if (font_checkAndClearException(env) || !DWRITE_GLYPH_METRICSFc.advanceHeight) {
         fprintf(stderr, "cacheDWRITE_GLYPH_METRICSFields error: JNI exception or advanceHeight == NULL");
         return;
     }
     DWRITE_GLYPH_METRICSFc.bottomSideBearing = env->GetFieldID(DWRITE_GLYPH_METRICSFc.clazz, "bottomSideBearing", "I");
-    if (checkAndClearException(env) || !DWRITE_GLYPH_METRICSFc.bottomSideBearing) {
+    if (font_checkAndClearException(env) || !DWRITE_GLYPH_METRICSFc.bottomSideBearing) {
         fprintf(stderr, "cacheDWRITE_GLYPH_METRICSFields error: JNI exception or bottomSideBearing == NULL");
         return;
     }
     DWRITE_GLYPH_METRICSFc.verticalOriginY = env->GetFieldID(DWRITE_GLYPH_METRICSFc.clazz, "verticalOriginY", "I");
-    if (checkAndClearException(env) || !DWRITE_GLYPH_METRICSFc.verticalOriginY) {
+    if (font_checkAndClearException(env) || !DWRITE_GLYPH_METRICSFc.verticalOriginY) {
         fprintf(stderr, "cacheDWRITE_GLYPH_METRICSFields error: JNI exception or verticalOriginY == NULL");
         return;
     }
     DWRITE_GLYPH_METRICSFc.init = env->GetMethodID(DWRITE_GLYPH_METRICSFc.clazz, "<init>", "()V");
-    if (checkAndClearException(env) || !DWRITE_GLYPH_METRICSFc.init) {
+    if (font_checkAndClearException(env) || !DWRITE_GLYPH_METRICSFc.init) {
         fprintf(stderr, "cacheDWRITE_GLYPH_METRICSFields error: JNI exception or <init> == NULL");
         return;
     }
@@ -175,43 +175,43 @@ void cacheDWRITE_MATRIXFields(JNIEnv *env)
 {
     if (DWRITE_MATRIXFc.cached) return;
     jclass tmpClass = env->FindClass("com/sun/javafx/font/directwrite/DWRITE_MATRIX");
-    if (checkAndClearException(env) || !tmpClass) {
+    if (font_checkAndClearException(env) || !tmpClass) {
         fprintf(stderr, "cacheDWRITE_MATRIXFields error: JNI exception or tmpClass == NULL");
         return;
     }
     DWRITE_MATRIXFc.clazz =  (jclass)env->NewGlobalRef(tmpClass);
     DWRITE_MATRIXFc.m11 = env->GetFieldID(DWRITE_MATRIXFc.clazz, "m11", "F");
-    if (checkAndClearException(env) || !DWRITE_MATRIXFc.m11) {
+    if (font_checkAndClearException(env) || !DWRITE_MATRIXFc.m11) {
         fprintf(stderr, "cacheDWRITE_MATRIXFields error: JNI exception or m11 == NULL");
         return;
     }
     DWRITE_MATRIXFc.m12 = env->GetFieldID(DWRITE_MATRIXFc.clazz, "m12", "F");
-    if (checkAndClearException(env) || !DWRITE_MATRIXFc.m12) {
+    if (font_checkAndClearException(env) || !DWRITE_MATRIXFc.m12) {
         fprintf(stderr, "cacheDWRITE_MATRIXFields error: JNI exception or m12 == NULL");
         return;
     }
     DWRITE_MATRIXFc.m21 = env->GetFieldID(DWRITE_MATRIXFc.clazz, "m21", "F");
-    if (checkAndClearException(env) || !DWRITE_MATRIXFc.m21) {
+    if (font_checkAndClearException(env) || !DWRITE_MATRIXFc.m21) {
         fprintf(stderr, "cacheDWRITE_MATRIXFields error: JNI exception or m21 == NULL");
         return;
     }
     DWRITE_MATRIXFc.m22 = env->GetFieldID(DWRITE_MATRIXFc.clazz, "m22", "F");
-    if (checkAndClearException(env) || !DWRITE_MATRIXFc.m22) {
+    if (font_checkAndClearException(env) || !DWRITE_MATRIXFc.m22) {
         fprintf(stderr, "cacheDWRITE_MATRIXFields error: JNI exception or m22 == NULL");
         return;
     }
     DWRITE_MATRIXFc.dx = env->GetFieldID(DWRITE_MATRIXFc.clazz, "dx", "F");
-    if (checkAndClearException(env) || !DWRITE_MATRIXFc.dx) {
+    if (font_checkAndClearException(env) || !DWRITE_MATRIXFc.dx) {
         fprintf(stderr, "cacheDWRITE_MATRIXFields error: JNI exception or dx == NULL");
         return;
     }
     DWRITE_MATRIXFc.dy = env->GetFieldID(DWRITE_MATRIXFc.clazz, "dy", "F");
-    if (checkAndClearException(env) || !DWRITE_MATRIXFc.dy) {
+    if (font_checkAndClearException(env) || !DWRITE_MATRIXFc.dy) {
         fprintf(stderr, "cacheDWRITE_MATRIXFields error: JNI exception or dy == NULL");
         return;
     }
     DWRITE_MATRIXFc.init = env->GetMethodID(DWRITE_MATRIXFc.clazz, "<init>", "()V");
-    if (checkAndClearException(env) || !DWRITE_MATRIXFc.init) {
+    if (font_checkAndClearException(env) || !DWRITE_MATRIXFc.init) {
         fprintf(stderr, "cacheDWRITE_MATRIXFields error: JNI exception or <init> == NULL");
         return;
     }
@@ -263,53 +263,53 @@ void cacheDWRITE_GLYPH_RUNFields(JNIEnv *env)
 {
     if (DWRITE_GLYPH_RUNFc.cached) return;
     jclass tmpClass = env->FindClass("com/sun/javafx/font/directwrite/DWRITE_GLYPH_RUN");
-    if (checkAndClearException(env) || !tmpClass) {
+    if (font_checkAndClearException(env) || !tmpClass) {
         fprintf(stderr, "cacheDWRITE_GLYPH_RUNFields error: JNI exception or tmpClass == NULL");
         return;
     }
     DWRITE_GLYPH_RUNFc.clazz =  (jclass)env->NewGlobalRef(tmpClass);
     DWRITE_GLYPH_RUNFc.fontFace = env->GetFieldID(DWRITE_GLYPH_RUNFc.clazz, "fontFace", "J");
-    if (checkAndClearException(env) || !DWRITE_GLYPH_RUNFc.fontFace) {
+    if (font_checkAndClearException(env) || !DWRITE_GLYPH_RUNFc.fontFace) {
         fprintf(stderr, "cacheDWRITE_GLYPH_RUNFields error: JNI exception or fontFace == NULL");
         return;
     }
     DWRITE_GLYPH_RUNFc.fontEmSize = env->GetFieldID(DWRITE_GLYPH_RUNFc.clazz, "fontEmSize", "F");
-    if (checkAndClearException(env) || !DWRITE_GLYPH_RUNFc.fontEmSize) {
+    if (font_checkAndClearException(env) || !DWRITE_GLYPH_RUNFc.fontEmSize) {
         fprintf(stderr, "cacheDWRITE_GLYPH_RUNFields error: JNI exception or fontEmSize == NULL");
         return;
     }
     DWRITE_GLYPH_RUNFc.glyphIndices = env->GetFieldID(DWRITE_GLYPH_RUNFc.clazz, "glyphIndices", "S");
-    if (checkAndClearException(env) || !DWRITE_GLYPH_RUNFc.glyphIndices) {
+    if (font_checkAndClearException(env) || !DWRITE_GLYPH_RUNFc.glyphIndices) {
         fprintf(stderr, "cacheDWRITE_GLYPH_RUNFields error: JNI exception or glyphIndices == NULL");
         return;
     }
     DWRITE_GLYPH_RUNFc.glyphAdvances = env->GetFieldID(DWRITE_GLYPH_RUNFc.clazz, "glyphAdvances", "F");
-    if (checkAndClearException(env) || !DWRITE_GLYPH_RUNFc.glyphAdvances) {
+    if (font_checkAndClearException(env) || !DWRITE_GLYPH_RUNFc.glyphAdvances) {
         fprintf(stderr, "cacheDWRITE_GLYPH_RUNFields error: JNI exception or glyphAdvances == NULL");
         return;
     }
     DWRITE_GLYPH_RUNFc.advanceOffset = env->GetFieldID(DWRITE_GLYPH_RUNFc.clazz, "advanceOffset", "F");
-    if (checkAndClearException(env) || !DWRITE_GLYPH_RUNFc.advanceOffset) {
+    if (font_checkAndClearException(env) || !DWRITE_GLYPH_RUNFc.advanceOffset) {
         fprintf(stderr, "cacheDWRITE_GLYPH_RUNFields error: JNI exception or advanceOffset == NULL");
         return;
     }
     DWRITE_GLYPH_RUNFc.ascenderOffset = env->GetFieldID(DWRITE_GLYPH_RUNFc.clazz, "ascenderOffset", "F");
-    if (checkAndClearException(env) || !DWRITE_GLYPH_RUNFc.ascenderOffset) {
+    if (font_checkAndClearException(env) || !DWRITE_GLYPH_RUNFc.ascenderOffset) {
         fprintf(stderr, "cacheDWRITE_GLYPH_RUNFields error: JNI exception or ascenderOffset == NULL");
         return;
     }
     DWRITE_GLYPH_RUNFc.isSideways = env->GetFieldID(DWRITE_GLYPH_RUNFc.clazz, "isSideways", "Z");
-    if (checkAndClearException(env) || !DWRITE_GLYPH_RUNFc.isSideways) {
+    if (font_checkAndClearException(env) || !DWRITE_GLYPH_RUNFc.isSideways) {
         fprintf(stderr, "cacheDWRITE_GLYPH_RUNFields error: JNI exception or isSideways == NULL");
         return;
     }
     DWRITE_GLYPH_RUNFc.bidiLevel = env->GetFieldID(DWRITE_GLYPH_RUNFc.clazz, "bidiLevel", "I");
-    if (checkAndClearException(env) || !DWRITE_GLYPH_RUNFc.bidiLevel) {
+    if (font_checkAndClearException(env) || !DWRITE_GLYPH_RUNFc.bidiLevel) {
         fprintf(stderr, "cacheDWRITE_GLYPH_RUNFields error: JNI exception or bidiLevel == NULL");
         return;
     }
     DWRITE_GLYPH_RUNFc.init = env->GetMethodID(DWRITE_GLYPH_RUNFc.clazz, "<init>", "()V");
-    if (checkAndClearException(env) || !DWRITE_GLYPH_RUNFc.init) {
+    if (font_checkAndClearException(env) || !DWRITE_GLYPH_RUNFc.init) {
         fprintf(stderr, "cacheDWRITE_GLYPH_RUNFields error: JNI exception or <init> == NULL");
         return;
     }
@@ -343,23 +343,23 @@ void cacheDWRITE_SCRIPT_ANALYSISFields(JNIEnv *env)
 {
     if (DWRITE_SCRIPT_ANALYSISFc.cached) return;
     jclass tmpClass = env->FindClass("com/sun/javafx/font/directwrite/DWRITE_SCRIPT_ANALYSIS");
-    if (checkAndClearException(env) || !tmpClass) {
+    if (font_checkAndClearException(env) || !tmpClass) {
         fprintf(stderr, "cacheDWRITE_SCRIPT_ANALYSISFields error: JNI exception or tmpClass == NULL");
         return;
     }
     DWRITE_SCRIPT_ANALYSISFc.clazz =  (jclass)env->NewGlobalRef(tmpClass);
     DWRITE_SCRIPT_ANALYSISFc.script = env->GetFieldID(DWRITE_SCRIPT_ANALYSISFc.clazz, "script", "S");
-    if (checkAndClearException(env) || !DWRITE_SCRIPT_ANALYSISFc.script) {
+    if (font_checkAndClearException(env) || !DWRITE_SCRIPT_ANALYSISFc.script) {
         fprintf(stderr, "cacheDWRITE_SCRIPT_ANALYSISFields error: JNI exception or script == NULL");
         return;
     }
     DWRITE_SCRIPT_ANALYSISFc.shapes = env->GetFieldID(DWRITE_SCRIPT_ANALYSISFc.clazz, "shapes", "I");
-    if (checkAndClearException(env) || !DWRITE_SCRIPT_ANALYSISFc.shapes) {
+    if (font_checkAndClearException(env) || !DWRITE_SCRIPT_ANALYSISFc.shapes) {
         fprintf(stderr, "cacheDWRITE_SCRIPT_ANALYSISFields error: JNI exception or shapes == NULL");
         return;
     }
     DWRITE_SCRIPT_ANALYSISFc.init = env->GetMethodID(DWRITE_SCRIPT_ANALYSISFc.clazz, "<init>", "()V");
-    if (checkAndClearException(env) || !DWRITE_SCRIPT_ANALYSISFc.init) {
+    if (font_checkAndClearException(env) || !DWRITE_SCRIPT_ANALYSISFc.init) {
         fprintf(stderr, "cacheDWRITE_SCRIPT_ANALYSISFields error: JNI exception or init == NULL");
         return;
     }
@@ -403,33 +403,33 @@ void cacheRECTFields(JNIEnv *env)
 {
     if (RECTFc.cached) return;
     jclass tmpClass = env->FindClass("com/sun/javafx/font/directwrite/RECT");
-    if (checkAndClearException(env) || !tmpClass) {
+    if (font_checkAndClearException(env) || !tmpClass) {
         fprintf(stderr, "cacheRECTFields error: JNI exception or tmpClass == NULL");
         return;
     }
     RECTFc.clazz =  (jclass)env->NewGlobalRef(tmpClass);
     RECTFc.left = env->GetFieldID(RECTFc.clazz, "left", "I");
-    if (checkAndClearException(env) || !RECTFc.left) {
+    if (font_checkAndClearException(env) || !RECTFc.left) {
         fprintf(stderr, "cacheRECTFields error: JNI exception or left == NULL");
         return;
     }
     RECTFc.top = env->GetFieldID(RECTFc.clazz, "top", "I");
-    if (checkAndClearException(env) || !RECTFc.top) {
+    if (font_checkAndClearException(env) || !RECTFc.top) {
         fprintf(stderr, "cacheRECTFields error: JNI exception or top == NULL");
         return;
     }
     RECTFc.right = env->GetFieldID(RECTFc.clazz, "right", "I");
-    if (checkAndClearException(env) || !RECTFc.right) {
+    if (font_checkAndClearException(env) || !RECTFc.right) {
         fprintf(stderr, "cacheRECTFields error: JNI exception or right == NULL");
         return;
     }
     RECTFc.bottom = env->GetFieldID(RECTFc.clazz, "bottom", "I");
-    if (checkAndClearException(env) || !RECTFc.bottom) {
+    if (font_checkAndClearException(env) || !RECTFc.bottom) {
         fprintf(stderr, "cacheRECTFields error: JNI exception or bottom == NULL");
         return;
     }
     RECTFc.init = env->GetMethodID(RECTFc.clazz, "<init>", "()V");
-    if (checkAndClearException(env) || !RECTFc.init) {
+    if (font_checkAndClearException(env) || !RECTFc.init) {
         fprintf(stderr, "cacheRECTFields error: JNI exception or init == NULL");
         return;
     }
@@ -477,23 +477,23 @@ void cacheD2D1_PIXEL_FORMATFields(JNIEnv *env)
 {
     if (D2D1_PIXEL_FORMATFc.cached) return;
     jclass tmpClass = env->FindClass("com/sun/javafx/font/directwrite/D2D1_PIXEL_FORMAT");
-    if (checkAndClearException(env) || !tmpClass) {
+    if (font_checkAndClearException(env) || !tmpClass) {
         fprintf(stderr, "cacheD2D1_PIXEL_FORMATFields error: JNI exception or tmpClass == NULL");
         return;
     }
     D2D1_PIXEL_FORMATFc.clazz =  (jclass)env->NewGlobalRef(tmpClass);
     D2D1_PIXEL_FORMATFc.format = env->GetFieldID(D2D1_PIXEL_FORMATFc.clazz, "format", "I");
-    if (checkAndClearException(env) || !D2D1_PIXEL_FORMATFc.format) {
+    if (font_checkAndClearException(env) || !D2D1_PIXEL_FORMATFc.format) {
         fprintf(stderr, "cacheD2D1_PIXEL_FORMATFields error: JNI exception or format == NULL");
         return;
     }
     D2D1_PIXEL_FORMATFc.alphaMode = env->GetFieldID(D2D1_PIXEL_FORMATFc.clazz, "alphaMode", "I");
-    if (checkAndClearException(env) || !D2D1_PIXEL_FORMATFc.alphaMode) {
+    if (font_checkAndClearException(env) || !D2D1_PIXEL_FORMATFc.alphaMode) {
         fprintf(stderr, "cacheD2D1_PIXEL_FORMATFields error: JNI exception or alphaMode == NULL");
         return;
     }
     D2D1_PIXEL_FORMATFc.init = env->GetMethodID(D2D1_PIXEL_FORMATFc.clazz, "<init>", "()V");
-    if (checkAndClearException(env) || !D2D1_PIXEL_FORMATFc.init) {
+    if (font_checkAndClearException(env) || !D2D1_PIXEL_FORMATFc.init) {
         fprintf(stderr, "cacheD2D1_PIXEL_FORMATFields error: JNI exception or init == NULL");
         return;
     }
@@ -537,43 +537,43 @@ void cacheD2D1_RENDER_TARGET_PROPERTIESFields(JNIEnv *env)
 {
     if (D2D1_RENDER_TARGET_PROPERTIESFc.cached) return;
     jclass tmpClass = env->FindClass("com/sun/javafx/font/directwrite/D2D1_RENDER_TARGET_PROPERTIES");
-    if (checkAndClearException(env) || !tmpClass) {
+    if (font_checkAndClearException(env) || !tmpClass) {
         fprintf(stderr, "cacheD2D1_RENDER_TARGET_PROPERTIESFields error: JNI exception or tmpClass == NULL");
         return;
     }
     D2D1_RENDER_TARGET_PROPERTIESFc.clazz =  (jclass)env->NewGlobalRef(tmpClass);
     D2D1_RENDER_TARGET_PROPERTIESFc.type = env->GetFieldID(D2D1_RENDER_TARGET_PROPERTIESFc.clazz, "type", "I");
-    if (checkAndClearException(env) || !D2D1_RENDER_TARGET_PROPERTIESFc.type) {
+    if (font_checkAndClearException(env) || !D2D1_RENDER_TARGET_PROPERTIESFc.type) {
         fprintf(stderr, "cacheD2D1_RENDER_TARGET_PROPERTIESFields error: JNI exception or type == NULL");
         return;
     }
     D2D1_RENDER_TARGET_PROPERTIESFc.pixelFormat = env->GetFieldID(D2D1_RENDER_TARGET_PROPERTIESFc.clazz, "pixelFormat", "Lcom/sun/javafx/font/directwrite/D2D1_PIXEL_FORMAT;");
-    if (checkAndClearException(env) || !D2D1_RENDER_TARGET_PROPERTIESFc.pixelFormat) {
+    if (font_checkAndClearException(env) || !D2D1_RENDER_TARGET_PROPERTIESFc.pixelFormat) {
         fprintf(stderr, "cacheD2D1_RENDER_TARGET_PROPERTIESFields error: JNI exception or pixelFormat == NULL");
         return;
     }
     D2D1_RENDER_TARGET_PROPERTIESFc.dpiX = env->GetFieldID(D2D1_RENDER_TARGET_PROPERTIESFc.clazz, "dpiX", "F");
-    if (checkAndClearException(env) || !D2D1_RENDER_TARGET_PROPERTIESFc.dpiX) {
+    if (font_checkAndClearException(env) || !D2D1_RENDER_TARGET_PROPERTIESFc.dpiX) {
         fprintf(stderr, "cacheD2D1_RENDER_TARGET_PROPERTIESFields error: JNI exception or dpiX == NULL");
         return;
     }
     D2D1_RENDER_TARGET_PROPERTIESFc.dpiY = env->GetFieldID(D2D1_RENDER_TARGET_PROPERTIESFc.clazz, "dpiY", "F");
-    if (checkAndClearException(env) || !D2D1_RENDER_TARGET_PROPERTIESFc.dpiY) {
+    if (font_checkAndClearException(env) || !D2D1_RENDER_TARGET_PROPERTIESFc.dpiY) {
         fprintf(stderr, "cacheD2D1_RENDER_TARGET_PROPERTIESFields error: JNI exception or dpiY == NULL");
         return;
     }
     D2D1_RENDER_TARGET_PROPERTIESFc.usage = env->GetFieldID(D2D1_RENDER_TARGET_PROPERTIESFc.clazz, "usage", "I");
-    if (checkAndClearException(env) || !D2D1_RENDER_TARGET_PROPERTIESFc.usage) {
+    if (font_checkAndClearException(env) || !D2D1_RENDER_TARGET_PROPERTIESFc.usage) {
         fprintf(stderr, "cacheD2D1_RENDER_TARGET_PROPERTIESFields error: JNI exception or usage == NULL");
         return;
     }
     D2D1_RENDER_TARGET_PROPERTIESFc.minLevel = env->GetFieldID(D2D1_RENDER_TARGET_PROPERTIESFc.clazz, "minLevel", "I");
-    if (checkAndClearException(env) || !D2D1_RENDER_TARGET_PROPERTIESFc.minLevel) {
+    if (font_checkAndClearException(env) || !D2D1_RENDER_TARGET_PROPERTIESFc.minLevel) {
         fprintf(stderr, "cacheD2D1_RENDER_TARGET_PROPERTIESFields error: JNI exception or minLevel == NULL");
         return;
     }
     D2D1_RENDER_TARGET_PROPERTIESFc.init = env->GetMethodID(D2D1_RENDER_TARGET_PROPERTIESFc.clazz, "<init>", "()V");
-    if (checkAndClearException(env) || !D2D1_RENDER_TARGET_PROPERTIESFc.init) {
+    if (font_checkAndClearException(env) || !D2D1_RENDER_TARGET_PROPERTIESFc.init) {
         fprintf(stderr, "cacheD2D1_RENDER_TARGET_PROPERTIESFields error: JNI exception or init == NULL");
         return;
     }
@@ -631,33 +631,33 @@ void cacheD2D1_COLOR_FFields(JNIEnv *env)
 {
     if (D2D1_COLOR_FFc.cached) return;
     jclass tmpClass = env->FindClass("com/sun/javafx/font/directwrite/D2D1_COLOR_F");
-    if (checkAndClearException(env) || !tmpClass) {
+    if (font_checkAndClearException(env) || !tmpClass) {
         fprintf(stderr, "cacheD2D1_COLOR_FFields error: JNI exception or tmpClass == NULL");
         return;
     }
     D2D1_COLOR_FFc.clazz =  (jclass)env->NewGlobalRef(tmpClass);
     D2D1_COLOR_FFc.r = env->GetFieldID(D2D1_COLOR_FFc.clazz, "r", "F");
-    if (checkAndClearException(env) || !D2D1_COLOR_FFc.r) {
+    if (font_checkAndClearException(env) || !D2D1_COLOR_FFc.r) {
         fprintf(stderr, "cacheD2D1_COLOR_FFields error: JNI exception or r == NULL");
         return;
     }
     D2D1_COLOR_FFc.g = env->GetFieldID(D2D1_COLOR_FFc.clazz, "g", "F");
-    if (checkAndClearException(env) || !D2D1_COLOR_FFc.g) {
+    if (font_checkAndClearException(env) || !D2D1_COLOR_FFc.g) {
         fprintf(stderr, "cacheD2D1_COLOR_FFields error: JNI exception or g == NULL");
         return;
     }
     D2D1_COLOR_FFc.b = env->GetFieldID(D2D1_COLOR_FFc.clazz, "b", "F");
-    if (checkAndClearException(env) || !D2D1_COLOR_FFc.b) {
+    if (font_checkAndClearException(env) || !D2D1_COLOR_FFc.b) {
         fprintf(stderr, "cacheD2D1_COLOR_FFields error: JNI exception or b == NULL");
         return;
     }
     D2D1_COLOR_FFc.a = env->GetFieldID(D2D1_COLOR_FFc.clazz, "a", "F");
-    if (checkAndClearException(env) || !D2D1_COLOR_FFc.a) {
+    if (font_checkAndClearException(env) || !D2D1_COLOR_FFc.a) {
         fprintf(stderr, "cacheD2D1_COLOR_FFields error: JNI exception or a == NULL");
         return;
     }
     D2D1_COLOR_FFc.init = env->GetMethodID(D2D1_COLOR_FFc.clazz, "<init>", "()V");
-    if (checkAndClearException(env) || !D2D1_COLOR_FFc.init) {
+    if (font_checkAndClearException(env) || !D2D1_COLOR_FFc.init) {
         fprintf(stderr, "cacheD2D1_COLOR_FFields error: JNI exception or init == NULL");
         return;
     }
@@ -705,23 +705,23 @@ void cacheD2D1_POINT_2FFields(JNIEnv *env)
 {
     if (D2D1_POINT_2FFc.cached) return;
     jclass tmpClass = env->FindClass("com/sun/javafx/font/directwrite/D2D1_POINT_2F");
-    if (checkAndClearException(env) || !tmpClass) {
+    if (font_checkAndClearException(env) || !tmpClass) {
         fprintf(stderr, "cacheD2D1_POINT_2FFields error: JNI exception or tmpClass == NULL");
         return;
     }
     D2D1_POINT_2FFc.clazz =  (jclass)env->NewGlobalRef(tmpClass);
     D2D1_POINT_2FFc.x = env->GetFieldID(D2D1_POINT_2FFc.clazz, "x", "F");
-    if (checkAndClearException(env) || !D2D1_POINT_2FFc.x) {
+    if (font_checkAndClearException(env) || !D2D1_POINT_2FFc.x) {
         fprintf(stderr, "cacheD2D1_POINT_2FFields error: JNI exception or x == NULL");
         return;
     }
     D2D1_POINT_2FFc.y = env->GetFieldID(D2D1_POINT_2FFc.clazz, "y", "F");
-    if (checkAndClearException(env) || !D2D1_POINT_2FFc.y) {
+    if (font_checkAndClearException(env) || !D2D1_POINT_2FFc.y) {
         fprintf(stderr, "cacheD2D1_POINT_2FFields error: JNI exception or y == NULL");
         return;
     }
     D2D1_POINT_2FFc.init = env->GetMethodID(D2D1_POINT_2FFc.clazz, "<init>", "()V");
-    if (checkAndClearException(env) || !D2D1_POINT_2FFc.init) {
+    if (font_checkAndClearException(env) || !D2D1_POINT_2FFc.init) {
         fprintf(stderr, "cacheD2D1_POINT_2FFields error: JNI exception or init == NULL");
         return;
     }
@@ -765,43 +765,43 @@ void cacheD2D1_MATRIX_3X2_FFields(JNIEnv *env)
 {
     if (D2D1_MATRIX_3X2_FFc.cached) return;
     jclass tmpClass = env->FindClass("com/sun/javafx/font/directwrite/D2D1_MATRIX_3X2_F");
-    if (checkAndClearException(env) || !tmpClass) {
+    if (font_checkAndClearException(env) || !tmpClass) {
         fprintf(stderr, "cacheD2D1_MATRIX_3X2_FFields error: JNI exception or tmpClass == NULL");
         return;
     }
     D2D1_MATRIX_3X2_FFc.clazz =  (jclass)env->NewGlobalRef(tmpClass);
     D2D1_MATRIX_3X2_FFc._11 = env->GetFieldID(D2D1_MATRIX_3X2_FFc.clazz, "_11", "F");
-    if (checkAndClearException(env) || !D2D1_MATRIX_3X2_FFc._11) {
+    if (font_checkAndClearException(env) || !D2D1_MATRIX_3X2_FFc._11) {
         fprintf(stderr, "cacheD2D1_MATRIX_3X2_FFields error: JNI exception or _11 == NULL");
         return;
     }
     D2D1_MATRIX_3X2_FFc._12 = env->GetFieldID(D2D1_MATRIX_3X2_FFc.clazz, "_12", "F");
-    if (checkAndClearException(env) || !D2D1_MATRIX_3X2_FFc._12) {
+    if (font_checkAndClearException(env) || !D2D1_MATRIX_3X2_FFc._12) {
         fprintf(stderr, "cacheD2D1_MATRIX_3X2_FFields error: JNI exception or _12 == NULL");
         return;
     }
     D2D1_MATRIX_3X2_FFc._21 = env->GetFieldID(D2D1_MATRIX_3X2_FFc.clazz, "_21", "F");
-    if (checkAndClearException(env) || !D2D1_MATRIX_3X2_FFc._21) {
+    if (font_checkAndClearException(env) || !D2D1_MATRIX_3X2_FFc._21) {
         fprintf(stderr, "cacheD2D1_MATRIX_3X2_FFields error: JNI exception or _21 == NULL");
         return;
     }
     D2D1_MATRIX_3X2_FFc._22 = env->GetFieldID(D2D1_MATRIX_3X2_FFc.clazz, "_22", "F");
-    if (checkAndClearException(env) || !D2D1_MATRIX_3X2_FFc._22) {
+    if (font_checkAndClearException(env) || !D2D1_MATRIX_3X2_FFc._22) {
         fprintf(stderr, "cacheD2D1_MATRIX_3X2_FFields error: JNI exception or _22 == NULL");
         return;
     }
     D2D1_MATRIX_3X2_FFc._31 = env->GetFieldID(D2D1_MATRIX_3X2_FFc.clazz, "_31", "F");
-    if (checkAndClearException(env) || !D2D1_MATRIX_3X2_FFc._31) {
+    if (font_checkAndClearException(env) || !D2D1_MATRIX_3X2_FFc._31) {
         fprintf(stderr, "cacheD2D1_MATRIX_3X2_FFields error: JNI exception or _31 == NULL");
         return;
     }
     D2D1_MATRIX_3X2_FFc._32 = env->GetFieldID(D2D1_MATRIX_3X2_FFc.clazz, "_32", "F");
-    if (checkAndClearException(env) || !D2D1_MATRIX_3X2_FFc._32) {
+    if (font_checkAndClearException(env) || !D2D1_MATRIX_3X2_FFc._32) {
         fprintf(stderr, "cacheD2D1_MATRIX_3X2_FFields error: JNI exception or _32 == NULL");
         return;
     }
     D2D1_MATRIX_3X2_FFc.init = env->GetMethodID(D2D1_MATRIX_3X2_FFc.clazz, "<init>", "()V");
-    if (checkAndClearException(env) || !D2D1_MATRIX_3X2_FFc.init) {
+    if (font_checkAndClearException(env) || !D2D1_MATRIX_3X2_FFc.init) {
         fprintf(stderr, "cacheD2D1_MATRIX_3X2_FFields error: JNI exception or init == NULL");
         return;
     }
