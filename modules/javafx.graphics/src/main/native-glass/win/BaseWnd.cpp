@@ -78,7 +78,7 @@ BaseWnd* BaseWnd::FromHandle(HWND hWnd)
 HWND BaseWnd::Create(HWND hParent, int x, int y, int width, int height,
         LPCTSTR lpWindowName, DWORD dwExStyle, DWORD dwStyle, HBRUSH hbrBackground)
 {
-    fprintf(stderr, "[JSDBG] BaseWnd.Create() A\n");
+    fprintf(stderr, "[JSDBG] BaseWnd.Create() A: x = %d, y = %d, width = %d, height = %d, dwExStyle = %d, dwStyle = %d\n", x, y, width, height, dwExStyle, dwStyle);
     HINSTANCE hInst = ::GetModuleHandle(NULL);
     fprintf(stderr, "[JSDBG] BaseWnd.Create() B\n");
     TCHAR szClassName[256];
@@ -87,7 +87,7 @@ HWND BaseWnd::Create(HWND hParent, int x, int y, int width, int height,
     ::ZeroMemory(szClassName, sizeof(szClassName));
     _stprintf_s(szClassName, sizeof(szClassName)/sizeof(szClassName[0]),
             _T("GlassWndClass-%s-%u"), GetWindowClassNameSuffix(), ++BaseWnd::sm_classNameCounter);
-    fprintf(stderr, "[JSDBG] BaseWnd.Create() D\n");
+    fprintf(stderr, "[JSDBG] BaseWnd.Create() D: szClassName = %s\n", szClassName);
 
     WNDCLASSEX wndcls;
     wndcls.cbSize           = sizeof(WNDCLASSEX);
@@ -117,7 +117,7 @@ HWND BaseWnd::Create(HWND hParent, int x, int y, int width, int height,
         if (lpWindowName == NULL) {
             lpWindowName = TEXT("");
         }
-        fprintf(stderr, "[JSDBG] BaseWnd.Create() I\n");
+        fprintf(stderr, "[JSDBG] BaseWnd.Create() I: lpWindowName = %s\n", lpWindowName);
         ::CreateWindowEx(dwExStyle, szClassName, lpWindowName,
                 dwStyle, x, y, width, height, hParent,
                 NULL, hInst, (void *)this);

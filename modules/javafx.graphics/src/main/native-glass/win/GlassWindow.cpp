@@ -1717,28 +1717,45 @@ JNIEXPORT jboolean JNICALL Java_com_sun_glass_ui_win_WinWindow__1setResizable
 JNIEXPORT jboolean JNICALL Java_com_sun_glass_ui_win_WinWindow__1setVisible
     (JNIEnv *env, jobject jThis, jlong ptr, jboolean visible)
 {
+    fprintf(stderr, "GlassWindow::__setVisible() ptr = %d, visible = %u\n", ptr, visible);
     ENTER_MAIN_THREAD()
     {
+        fprintf(stderr, "GlassWindow::__setVisible() A\n");
         GlassWindow *pWindow = GlassWindow::FromHandle(hWnd);
+        fprintf(stderr, "GlassWindow::__setVisible() B\n");
         if (!visible) {
+            fprintf(stderr, "GlassWindow::__setVisible() Ba\n");
             if (pWindow) {
+                fprintf(stderr, "GlassWindow::__setVisible() Baa\n");
                 pWindow->UngrabFocus();
             }
 
+            fprintf(stderr, "GlassWindow::__setVisible() Bb\n");
             if (activeTouchWindow == hWnd) {
+                fprintf(stderr, "GlassWindow::__setVisible() Bba\n");
                 pWindow->HandleViewTouchEvent(hWnd, 0, 0, 0);
+                fprintf(stderr, "GlassWindow::__setVisible() Bbb\n");
                 activeTouchWindow = 0;
             }
+            fprintf(stderr, "GlassWindow::__setVisible() Bc\n");
         }
+        fprintf(stderr, "GlassWindow::__setVisible() C\n");
 
 
         ::ShowWindow(hWnd, visible ? SW_SHOW : SW_HIDE);
 
+        fprintf(stderr, "GlassWindow::__setVisible() D\n");
+
         if (visible) {
+            fprintf(stderr, "GlassWindow::__setVisible() Da\n");
             if (pWindow) {
+                fprintf(stderr, "GlassWindow::__setVisible() Daa\n");
                 if (pWindow->IsFocusable()) {
+                    fprintf(stderr, "GlassWindow::__setVisible() Daaa\n");
                     ::SetForegroundWindow(hWnd);
+                    fprintf(stderr, "GlassWindow::__setVisible() Daab\n");
                 } else {
+                    fprintf(stderr, "GlassWindow::__setVisible() Daac\n");
                     // RT-14197:
                     // On some latest platform versions, unfocusable windows
                     // are shown below the currently active window, so we
@@ -1749,12 +1766,18 @@ JNIEXPORT jboolean JNICALL Java_com_sun_glass_ui_win_WinWindow__1setVisible
                     // and then reset this flag to just TOP.
                     ::SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0,
                                    SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
+                    fprintf(stderr, "GlassWindow::__setVisible() Daad\n");
                     ::SetWindowPos(hWnd, HWND_TOP, 0, 0, 0, 0,
                                    SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
+                    fprintf(stderr, "GlassWindow::__setVisible() Daae\n");
                 }
+                fprintf(stderr, "GlassWindow::__setVisible() Dab\n");
             }
+            fprintf(stderr, "GlassWindow::__setVisible() Db\n");
             ::UpdateWindow(hWnd);
+            fprintf(stderr, "GlassWindow::__setVisible() Dc\n");
         }
+        fprintf(stderr, "GlassWindow::__setVisible() E\n");
     }
     jboolean visible;
     LEAVE_MAIN_THREAD_WITH_hWnd;
