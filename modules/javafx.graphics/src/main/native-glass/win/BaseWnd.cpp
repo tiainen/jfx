@@ -163,24 +163,41 @@ BOOL BaseWnd::GetDefaultWindowBounds(LPRECT r)
 /*static*/
 LRESULT CALLBACK BaseWnd::StaticWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+    fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() A: hWnd = %p\n", hWnd);
     BaseWnd *pThis = NULL;
     if (msg == WM_CREATE) {
+        fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() Aaa\n");
         pThis = (BaseWnd *)((CREATESTRUCT *)lParam)->lpCreateParams;
+        fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() Aab\n");
         ::SetProp(hWnd, szBaseWndProp, (HANDLE)pThis);
+        fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() Aac\n");
         if (pThis != NULL) {
+            fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() Aad\n");
             pThis->m_hWnd = hWnd;
+            fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() Aae\n");
         }
+        fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() Aaf\n");
     } else {
+        fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() Aba\n");
         pThis = (BaseWnd *)::GetProp(hWnd, szBaseWndProp);
+        fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() Abb\n");
     }
+    fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() B\n");
     if (pThis != NULL) {
+        fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() Ba\n");
         LRESULT result = pThis->WindowProc(msg, wParam, lParam);
+        fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() Bb\n");
         if (msg == WM_NCDESTROY) {
+            fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() Bba\n");
             ::RemoveProp(hWnd, szBaseWndProp);
+            fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() Bbb\n");
             delete pThis;
+            fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() Bbc\n");
         }
+        fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() Bc\n");
         return result;
     }
+    fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() C\n");
     return ::DefWindowProc(hWnd, msg, wParam, lParam);
 }
 

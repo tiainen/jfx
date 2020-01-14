@@ -1717,7 +1717,7 @@ JNIEXPORT jboolean JNICALL Java_com_sun_glass_ui_win_WinWindow__1setResizable
 JNIEXPORT jboolean JNICALL Java_com_sun_glass_ui_win_WinWindow__1setVisible
     (JNIEnv *env, jobject jThis, jlong ptr, jboolean visible)
 {
-    fprintf(stderr, "GlassWindow::__setVisible() ptr = %d, visible = %u\n", ptr, visible);
+    fprintf(stderr, "GlassWindow::__setVisible() ptr = %d, visible = %u, hWnd = %p\n", ptr, visible, hWnd);
     ENTER_MAIN_THREAD()
     {
         fprintf(stderr, "GlassWindow::__setVisible() A\n");

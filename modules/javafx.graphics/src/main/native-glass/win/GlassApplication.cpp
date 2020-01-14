@@ -429,9 +429,12 @@ JNIEXPORT jlong JNICALL Java_com_sun_glass_ui_win_WinApplication__1init
         GlassScreen::LoadDPIFuncs(awareRequested);
     }
 
+    fprintf(stderr, "[JSDBG] GlassApplication.init() A\n");
     GlassApplication *pApp = new GlassApplication(_this);
+    fprintf(stderr, "[JSDBG] GlassApplication.init() B\n");
 
     HWND hWnd = GlassApplication::GetToolkitHWND();
+    fprintf(stderr, "[JSDBG] GlassApplication.init() C: toolkitHWND = %p\n", hWnd);
     if (hWnd == NULL) {
         delete pApp;
     }

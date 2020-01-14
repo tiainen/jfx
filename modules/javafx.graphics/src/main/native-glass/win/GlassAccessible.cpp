@@ -1071,6 +1071,8 @@ IFACEMETHODIMP GlassAccessible::ScrollIntoView()
 JNIEXPORT void JNICALL Java_com_sun_glass_ui_win_WinAccessible__1initIDs
   (JNIEnv *env, jclass jClass)
 {
+    fprintf(stderr, "GlassAccessible::initIDs A\n");
+
     /* IRawElementProviderSimple */
     mid_GetPatternProvider = env->GetMethodID(jClass, "GetPatternProvider", "(I)J");
     if (env->ExceptionCheck()) return;
