@@ -163,7 +163,7 @@ BOOL BaseWnd::GetDefaultWindowBounds(LPRECT r)
 /*static*/
 LRESULT CALLBACK BaseWnd::StaticWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() A: hWnd = %p\n", hWnd);
+    fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() A: hWnd = %p, msg = %d\n", hWnd, msg);
     BaseWnd *pThis = NULL;
     if (msg == WM_CREATE) {
         fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() Aaa\n");
