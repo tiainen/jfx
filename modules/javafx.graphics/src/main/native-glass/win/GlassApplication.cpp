@@ -366,6 +366,7 @@ extern "C" {
 
 BOOL WINAPI DllMain(HANDLE hinstDLL, DWORD dwReason, LPVOID lpvReserved)
 {
+    fprintf(stderr, "GlassApplication::DllMain() dwReason = %d", dwReason);
     if (dwReason == DLL_PROCESS_ATTACH) {
         GlassApplication::SetHInstance((HINSTANCE)hinstDLL);
     }
