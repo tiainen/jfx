@@ -179,15 +179,17 @@ final class WinApplication extends Application implements InvokeLaterDispatcher.
             AccessController.doPrivileged((PrivilegedAction<Thread>) () -> new Thread(() -> {
                 System.err.println("[JSDBG] WinApplication.java L");
                 _init(awareness);
-                System.err.println("[JSDBG] WinApplication.java M");
+                System.err.println("[JSDBG] WinApplication.java M...sleeping 10 seconds before starting _runLoop on thread " + Thread.currentThread().getName());
+                Thread.sleep(10000);
+                System.err.println("[JSDBG] WinApplication.java N...go runloop!");
                 _runLoop(launchable);
-                System.err.println("[JSDBG] WinApplication.java N");
+                System.err.println("[JSDBG] WinApplication.java O...finished runloop");
             }, "WindowsNativeRunloopThread"));
         System.err.println("[JSDBG] WinApplication.java H");
         setEventThread(toolkitThread);
-        System.err.println("[JSDBG] WinApplication.java J");
+        System.err.println("[JSDBG] WinApplication.java J...starting toolkitThread on thread " + Thread.currentThread().getName());
         toolkitThread.start();
-        System.err.println("[JSDBG] WinApplication.java K");
+        System.err.println("[JSDBG] WinApplication.java K...started toolkitThread.");
     }
 
     @Override protected void finishTerminating() {
