@@ -242,7 +242,7 @@ void GlassApplication::InstallMouseLLHook()
 {
     fprintf(stderr, "GlassApplication::InstallMouseLLHook() (counter = %d)\n", GlassApplication::sm_mouseLLHookCounter);
     if (++GlassApplication::sm_mouseLLHookCounter == 1) {
-        fprintf(stderr, "GlassApplication::InstallMouseLLHook() HInstance = %d\n", GlassApplication::GetHInstance());
+        fprintf(stderr, "GlassApplication::InstallMouseLLHook() HInstance = %p\n", GlassApplication::GetHInstance());
         GlassApplication::sm_hMouseLLHook =
             ::SetWindowsHookEx(WH_MOUSE_LL,
                     (HOOKPROC)GlassApplication::MouseLLHook,
@@ -386,8 +386,7 @@ JNIEXPORT void JNICALL Java_com_sun_glass_ui_win_WinApplication_initIDs
 {
 #ifdef STATIC_BUILD
     HINSTANCE hInstExe = ::GetModuleHandle(NULL);
-    HINSTANCE hInstGlass = ::GetModuleHandle("glass");
-    fprintf(stderr, "GlassApplication::_initIDs hInstExe = %d, hInstGlass = %d\n", hInstExe, hInstGlass);
+    fprintf(stderr, "GlassApplication::_initIDs hInstExe = %p\n", hInstExe);
     GlassApplication::SetHInstance(hInstExe);
 #endif
 

@@ -131,7 +131,7 @@ HWND BaseWnd::Create(HWND hParent, int x, int y, int width, int height,
         fprintf(stderr, "[JSDBG] BaseWnd.Create() L\n");
     }
 
-    fprintf(stderr, "[JSDBG] BaseWnd.Create() M: m_hWnd = %d\n", m_hWnd);
+    fprintf(stderr, "[JSDBG] BaseWnd.Create() M: m_hWnd = %p\n", m_hWnd);
 
     return m_hWnd;
 
