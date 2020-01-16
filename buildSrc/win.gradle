@@ -101,7 +101,7 @@ if (WINDOWS_SDK_DIR == null || WINDOWS_SDK_DIR == "") {
 
 // Define set of flags shared for all targets that support debug compilation
 def ccDebugFlags =
-    IS_DEBUG_NATIVE ? ["/MDd", "/Od", "/Zi", "/DDEBUG"] : ["/O2", "/MD", "/DNDEBUG"]
+    IS_DEBUG_NATIVE ? ["/MDd", "/Od", "/Zi", "/DDEBUG"] : (IS_STATIC_BUILD ? ["/O2", "/MT", "/DNDEBUG"] : ["/O2", "/MD", "/DNDEBUG"])
 
 def winVsVer = Integer.parseInt(WINDOWS_VS_VER)
 if (winVsVer >= 120) {
@@ -117,17 +117,15 @@ def ccFlags = ["/nologo", "/W3", "/EHsc", "/c",
         "/I$JDK_HOME/include", "/I$JDK_HOME/include/win32",
         ccDebugFlags].flatten();
 
-if (IS_STATIC_BUILD) ccFlags.add("/DSTATIC_BUILD");
+if (IS_STATIC_BUILD) ccFlags.add("/DSTATIC_BUILD")
 
-def linkFlags = ["/nologo", "/dll", "/manifest", "/opt:REF", "/incremental:no", "/dynamicbase", "/nxcompat"].flatten()
+def linkFlags = ["/nologo"]
+if (!IS_STATIC_BUILD) {
+    linkFlags += ["/dll", "/manifest", "/opt:REF", "/incremental:no", "/dynamicbase", "/nxcompat"]
+}
 
 if (!IS_64) linkFlags.add("/safeseh");
 if (IS_DEBUG_NATIVE) linkFlags.add("/debug");
-
-if (IS_STATIC_BUILD) {
-    linkFlags += [ "/MT" ]
-    linkFlags -= [ "/dll", "/MD" ]
-}
 
 // Remove C++ static linking if not on VS2010
 if (WINDOWS_VS_VER != "100") {
