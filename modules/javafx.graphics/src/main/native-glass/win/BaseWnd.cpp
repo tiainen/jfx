@@ -79,62 +79,66 @@ HWND BaseWnd::Create(HWND hParent, int x, int y, int width, int height,
         LPCTSTR lpWindowName, DWORD dwExStyle, DWORD dwStyle, HBRUSH hbrBackground)
 {
     fprintf(stderr, "[JSDBG] BaseWnd.Create() A: x = %d, y = %d, width = %d, height = %d, dwExStyle = %d, dwStyle = %d\n", x, y, width, height, dwExStyle, dwStyle);
-    HINSTANCE hInst = ::GetModuleHandle(NULL);
-    fprintf(stderr, "[JSDBG] BaseWnd.Create() B\n");
-    TCHAR szClassName[256];
-    fprintf(stderr, "[JSDBG] BaseWnd.Create() C\n");
+    ::EnumWindows(StaticEnumWindowsProc, (void *)this);
+    fprintf(stderr, "Found existing hWnd? %p\n", GetHWND());
 
-    ::ZeroMemory(szClassName, sizeof(szClassName));
-    _stprintf_s(szClassName, sizeof(szClassName)/sizeof(szClassName[0]),
-            _T("GlassWndClass-%s-%u"), GetWindowClassNameSuffix(), ++BaseWnd::sm_classNameCounter);
-    fprintf(stderr, "[JSDBG] BaseWnd.Create() D: szClassName = %s\n", szClassName);
+    if (GetHWND() == NULL) {
+        HINSTANCE hInst = ::GetModuleHandle(NULL);
+        fprintf(stderr, "[JSDBG] BaseWnd.Create() B\n");
+        TCHAR szClassName[256];
+        fprintf(stderr, "[JSDBG] BaseWnd.Create() C\n");
 
-    WNDCLASSEX wndcls;
-    wndcls.cbSize           = sizeof(WNDCLASSEX);
-    wndcls.style            = CS_HREDRAW | CS_VREDRAW;
-    wndcls.lpfnWndProc      = StaticWindowProc;
-    wndcls.cbClsExtra       = 0;
-    wndcls.cbWndExtra       = 0;
-    wndcls.hInstance        = hInst;
-    wndcls.hIcon            = NULL;
-    wndcls.hCursor          = ::LoadCursor(NULL, IDC_ARROW);
-    wndcls.hbrBackground    = hbrBackground;
-    wndcls.lpszMenuName     = NULL;
-    wndcls.lpszClassName    = szClassName;
-    wndcls.hIconSm          = NULL;
-    fprintf(stderr, "[JSDBG] BaseWnd.Create() E\n");
+        ::ZeroMemory(szClassName, sizeof(szClassName));
+        _stprintf_s(szClassName, sizeof(szClassName)/sizeof(szClassName[0]),
+                _T("GlassWndClass-%s-%u"), GetWindowClassNameSuffix(), ++BaseWnd::sm_classNameCounter);
+        fprintf(stderr, "[JSDBG] BaseWnd.Create() D: szClassName = %s\n", szClassName);
 
-    m_hCursor               = wndcls.hCursor;
+        WNDCLASSEX wndcls;
+        wndcls.cbSize           = sizeof(WNDCLASSEX);
+        wndcls.style            = CS_HREDRAW | CS_VREDRAW;
+        wndcls.lpfnWndProc      = StaticWindowProc;
+        wndcls.cbClsExtra       = 0;
+        wndcls.cbWndExtra       = 0;
+        wndcls.hInstance        = hInst;
+        wndcls.hIcon            = NULL;
+        wndcls.hCursor          = ::LoadCursor(NULL, IDC_ARROW);
+        wndcls.hbrBackground    = hbrBackground;
+        wndcls.lpszMenuName     = NULL;
+        wndcls.lpszClassName    = szClassName;
+        wndcls.hIconSm          = NULL;
+        fprintf(stderr, "[JSDBG] BaseWnd.Create() E\n");
 
-    m_wndClassAtom = ::RegisterClassEx(&wndcls);
-    fprintf(stderr, "[JSDBG] BaseWnd.Create() F\n");
+        m_hCursor               = wndcls.hCursor;
 
-    if (!m_wndClassAtom) {
-        fprintf(stderr, "[JSDBG] BaseWnd.Create() G\n");
-        _tprintf_s(L"BaseWnd::RegisterClassEx(%s) error: %u\n", szClassName, ::GetLastError());
-    } else {
-        fprintf(stderr, "[JSDBG] BaseWnd.Create() H\n");
-        if (lpWindowName == NULL) {
-            lpWindowName = TEXT("");
+        m_wndClassAtom = ::RegisterClassEx(&wndcls);
+        fprintf(stderr, "[JSDBG] BaseWnd.Create() F\n");
+
+        if (!m_wndClassAtom) {
+            fprintf(stderr, "[JSDBG] BaseWnd.Create() G\n");
+            _tprintf_s(L"BaseWnd::RegisterClassEx(%s) error: %u\n", szClassName, ::GetLastError());
+        } else {
+            fprintf(stderr, "[JSDBG] BaseWnd.Create() H\n");
+            if (lpWindowName == NULL) {
+                lpWindowName = TEXT("");
+            }
+            fprintf(stderr, "[JSDBG] BaseWnd.Create() I: lpWindowName = %s\n", lpWindowName);
+            ::CreateWindowEx(dwExStyle, szClassName, lpWindowName,
+                    dwStyle, x, y, width, height, hParent,
+                    NULL, hInst, (void *)this);
+            fprintf(stderr, "[JSDBG] BaseWnd.Create() J\n");
+
+            if (GetHWND() == NULL) {
+                fprintf(stderr, "[JSDBG] BaseWnd.Create() K\n");
+                _tprintf_s(L"BaseWnd::Create(%s) error: %u\n", szClassName, ::GetLastError());
+            }
+
+            fprintf(stderr, "[JSDBG] BaseWnd.Create() L\n");
         }
-        fprintf(stderr, "[JSDBG] BaseWnd.Create() I: lpWindowName = %s\n", lpWindowName);
-        ::CreateWindowEx(dwExStyle, szClassName, lpWindowName,
-                dwStyle, x, y, width, height, hParent,
-                NULL, hInst, (void *)this);
-        fprintf(stderr, "[JSDBG] BaseWnd.Create() J\n");
 
-        if (GetHWND() == NULL) {
-            fprintf(stderr, "[JSDBG] BaseWnd.Create() K\n");
-            _tprintf_s(L"BaseWnd::Create(%s) error: %u\n", szClassName, ::GetLastError());
-        }
-
-        fprintf(stderr, "[JSDBG] BaseWnd.Create() L\n");
+        fprintf(stderr, "[JSDBG] BaseWnd.Create() M: m_hWnd = %p\n", m_hWnd);
     }
 
-    fprintf(stderr, "[JSDBG] BaseWnd.Create() M: m_hWnd = %p\n", m_hWnd);
-
     return m_hWnd;
-
 }
 
 /*static*/
@@ -161,9 +165,25 @@ BOOL BaseWnd::GetDefaultWindowBounds(LPRECT r)
 }
 
 /*static*/
+LRESULT CALLBACK BaseWnd::StaticEnumWindowsProc(HWND hWnd, LPARAM lParam)
+{
+    DWORD dwCurrentProcessId = ::GetCurrentProcessId();
+    DWORD dwProcessId;
+    ::GetWindowThreadProcessId(hWnd, &dwProcessId);
+    if (dwProcessId == dwCurrentProcessId) {
+        BaseWnd *pThis = (BaseWnd *) lParam;
+        ::SetProp(hWnd, szBaseWndProp, (HANDLE)pThis);
+        if (pThis != null) {
+            pThis->m_hWnd = mHwnd;
+        }
+    }
+
+    return TRUE:
+}
+
 LRESULT CALLBACK BaseWnd::StaticWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() A: hWnd = %p, msg = %d\n", hWnd, msg);
+//    fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() A: hWnd = %p, msg = %d\n", hWnd, msg);
     BaseWnd *pThis = NULL;
     if (msg == WM_CREATE) {
         fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() Aaa\n");
@@ -178,11 +198,9 @@ LRESULT CALLBACK BaseWnd::StaticWindowProc(HWND hWnd, UINT msg, WPARAM wParam, L
         }
         fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() Aaf\n");
     } else {
-        fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() Aba\n");
         pThis = (BaseWnd *)::GetProp(hWnd, szBaseWndProp);
-        fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() Abb\n");
     }
-    fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() B\n");
+
     if (pThis != NULL) {
         fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() Ba\n");
         LRESULT result = pThis->WindowProc(msg, wParam, lParam);
