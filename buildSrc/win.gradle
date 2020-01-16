@@ -119,14 +119,15 @@ def ccFlags = ["/nologo", "/W3", "/EHsc", "/c",
 
 if (IS_STATIC_BUILD) ccFlags.add("/DSTATIC_BUILD");
 
-def dynamicLinkFlags = ["/nologo", "/dll", "/manifest", "/opt:REF", "/incremental:no", "/dynamicbase", "/nxcompat"]
+def linkFlags = ["/nologo", "/dll", "/manifest", "/opt:REF", "/incremental:no", "/dynamicbase", "/nxcompat"].flatten()
 
-if (!IS_64) dynamicLinkFlags.add("/safeseh");
-if (IS_DEBUG_NATIVE) dynamicLinkFlags.add("/debug");
+if (!IS_64) linkFlags.add("/safeseh");
+if (IS_DEBUG_NATIVE) linkFlags.add("/debug");
 
-def staticLinkFlags = ["/nologo"].flatten()
-
-def linkFlags = IS_STATIC_BUILD ? staticLinkFlags : dynamicLinkFlags
+if (IS_STATIC_BUILD) {
+    linkFlags += [ "/MT" ]
+    linkFlags -= [ "/dll", "/MD" ]
+}
 
 // Remove C++ static linking if not on VS2010
 if (WINDOWS_VS_VER != "100") {
@@ -301,7 +302,7 @@ def rcFlags = [
     "/d", "\"JFX_BUILD_ID=${rcVerBuild}\"",
     "/d", "\"JFX_COPYRIGHT=Copyright \u00A9 ${rcVerCopyrYear}\"",
     "/d", "\"JFX_FVER=${rcVerFile}\"",
-    "/d", "\"JFX_FTYPE=0x2L\"",
+    "/d", "\"JFX_FTYPE=${IS_STATIC_BUILD ? "0x7L" : "0x2L" }\"",
     "/nologo"
 ];
 
