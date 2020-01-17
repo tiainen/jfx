@@ -173,12 +173,12 @@ LRESULT CALLBACK BaseWnd::StaticEnumWindowsProc(HWND hWnd, LPARAM lParam)
     if (dwProcessId == dwCurrentProcessId) {
         BaseWnd *pThis = (BaseWnd *) lParam;
         ::SetProp(hWnd, szBaseWndProp, (HANDLE)pThis);
-        if (pThis != null) {
-            pThis->m_hWnd = mHwnd;
+        if (pThis != NULL) {
+            pThis->m_hWnd = hWnd;
         }
     }
 
-    return TRUE:
+    return TRUE;
 }
 
 LRESULT CALLBACK BaseWnd::StaticWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
