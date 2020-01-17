@@ -202,9 +202,7 @@ LRESULT CALLBACK BaseWnd::StaticWindowProc(HWND hWnd, UINT msg, WPARAM wParam, L
     }
 
     if (pThis != NULL) {
-        fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() Ba\n");
         LRESULT result = pThis->WindowProc(msg, wParam, lParam);
-        fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() Bb\n");
         if (msg == WM_NCDESTROY) {
             fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() Bba\n");
             ::RemoveProp(hWnd, szBaseWndProp);
@@ -212,7 +210,6 @@ LRESULT CALLBACK BaseWnd::StaticWindowProc(HWND hWnd, UINT msg, WPARAM wParam, L
             delete pThis;
             fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() Bbc\n");
         }
-        fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() Bc\n");
         return result;
     }
     fprintf(stderr, "[JSDBG] BaseWnd.StaticWindowProc() C\n");
