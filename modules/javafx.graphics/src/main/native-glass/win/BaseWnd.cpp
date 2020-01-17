@@ -79,7 +79,7 @@ HWND BaseWnd::Create(HWND hParent, int x, int y, int width, int height,
         LPCTSTR lpWindowName, DWORD dwExStyle, DWORD dwStyle, HBRUSH hbrBackground)
 {
     fprintf(stderr, "[JSDBG] BaseWnd.Create() A: x = %d, y = %d, width = %d, height = %d, dwExStyle = %d, dwStyle = %d\n", x, y, width, height, dwExStyle, dwStyle);
-    ::EnumWindows(StaticEnumWindowsProc, reinterpret_cast<LPARAM>(this));
+//    ::EnumWindows(StaticEnumWindowsProc, reinterpret_cast<LPARAM>(this));
     fprintf(stderr, "Found existing hWnd? %p\n", GetHWND());
 
     if (GetHWND() == NULL) {

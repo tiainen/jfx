@@ -62,6 +62,7 @@ import java.security.AccessControlContext;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -167,6 +168,9 @@ public abstract class Toolkit {
     }
 
     public static synchronized void loadMSWindowsLibraries() {
+        if (verbose) {
+            System.err.println("Loading MS Windows native libraries: " + Arrays.toString(msLibNames));
+        }
         for (String libName : msLibNames) {
             try {
                 NativeLibLoader.loadLibrary(libName);
