@@ -165,7 +165,7 @@ BOOL BaseWnd::GetDefaultWindowBounds(LPRECT r)
 }
 
 /*static*/
-LRESULT CALLBACK BaseWnd::StaticEnumWindowsProc(HWND hWnd, LPARAM lParam)
+BOOL CALLBACK BaseWnd::StaticEnumWindowsProc(HWND hWnd, LPARAM lParam)
 {
     DWORD dwCurrentProcessId = ::GetCurrentProcessId();
     DWORD dwProcessId;

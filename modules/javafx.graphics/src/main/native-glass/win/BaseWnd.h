@@ -69,7 +69,7 @@ public:
 
 private:
     HWND m_hWnd;
-    static LRESULT CALLBACK StaticEnumWindowsProc(HWND hWnd, LPARAM lParam);
+    static BOOL CALLBACK StaticEnumWindowsProc(HWND hWnd, LPARAM lParam);
     static LRESULT CALLBACK StaticWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
     static unsigned int sm_classNameCounter;
