@@ -103,6 +103,7 @@
 #include <WebCore/TextureMapperJava.h>
 #include <WebCore/TextureMapperLayer.h>
 #include <WebCore/WorkerThread.h>
+#include <WebCore/loader/cache/MemoryCache.h>
 #include <wtf/Ref.h>
 #include <wtf/RunLoop.h>
 #include <wtf/java/JavaRef.h>
@@ -2384,6 +2385,12 @@ JNIEXPORT jboolean JNICALL Java_com_sun_webkit_WebPage_twkGetDeveloperExtrasEnab
     Page* page = WebPage::pageFromJLong(pPage);
     ASSERT(page);
     return bool_to_jbool(page->settings().developerExtrasEnabled());
+}
+
+JNIEXPORT void JNICALL Java_com_sun_webkit_WebPage_twkClearCache
+    (JNIEnv*, jobject)
+{
+    MemoryCache::singleton().evictResources();
 }
 
 JNIEXPORT void JNICALL Java_com_sun_webkit_WebPage_twkSetDeveloperExtrasEnabled

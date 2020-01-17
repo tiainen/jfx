@@ -1982,6 +1982,15 @@ public final class WebPage {
         }
     }
 
+    public void clearCache() {
+        lockPage();
+        try {
+            twkClearCache();
+        } finally {
+            unlockPage();
+        }
+    }
+
     public boolean isContextMenuEnabled() {
         lockPage();
         try {
@@ -2658,6 +2667,8 @@ public final class WebPage {
     private native void twkSetUserAgent(long page, String userAgent);
     private native void twkSetLocalStorageDatabasePath(long page, String path);
     private native void twkSetLocalStorageEnabled(long page, boolean enabled);
+
+    private native void twkClearCache();
 
     private native int twkGetUnloadEventListenersCount(long pFrame);
 
