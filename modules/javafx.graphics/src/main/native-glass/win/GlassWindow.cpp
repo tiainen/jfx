@@ -229,7 +229,7 @@ LRESULT CALLBACK GlassWindow::CBTFilter(int nCode, WPARAM wParam, LPARAM lParam)
         if (pWindow && pWindow->IsGlassWindow()) {
             GlassWindow * window = (GlassWindow*)pWindow;
 
-            fprintf(stderr, "GlassWindow::CBTFilter GlassWindow = %p; enabled = %d; focusable = %d\n", window, windows->IsEnabled(), windows->IsFocusable());
+            fprintf(stderr, "GlassWindow::CBTFilter GlassWindow = %p; enabled = %d; focusable = %d\n", window, window->IsEnabled(), window->IsFocusable());
             if (!window->IsEnabled()) {
                 window->HandleFocusDisabledEvent();
                 return 1;
