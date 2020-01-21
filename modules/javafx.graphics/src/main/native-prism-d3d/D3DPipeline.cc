@@ -207,6 +207,7 @@ void fillDriverInformation(JNIEnv *env, jobject object, jclass clazz, D3DADAPTER
 void fillOsVersionInformation(JNIEnv *env, jobject object, jclass clazz) {
     OSVERSIONINFO osInfo; osInfo.dwOSVersionInfoSize = sizeof(osInfo);
     if (GetVersionEx( &osInfo )) {
+        fprintf(stderr, "osInfo = %p, major: %d, minor: %d, build: %d\n", GetVersionEx, osInfo.dwMajorVersion, osInfo.dwMinorVersion, osInfo.dwBuildNumber);
         setIntField(env, object, clazz, "osMajorVersion", osInfo.dwMajorVersion);
         setIntField(env, object, clazz, "osMinorVersion", osInfo.dwMinorVersion);
         setIntField(env, object, clazz, "osBuildNumber", osInfo.dwBuildNumber);

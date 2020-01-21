@@ -323,7 +323,7 @@ WIN.glass.rcFlags = [
 WIN.glass.ccFlags = [ccFlags, "/WX"].flatten()
 if (WINDOWS_VS_VER != "100") WIN.glass.ccFlags -= ["/WX"]
 WIN.glass.linker = linker
-WIN.glass.linkFlags = [linkFlags, "delayimp.lib", "gdi32.lib", "urlmon.lib", "Comdlg32.lib",
+WIN.glass.linkFlags = IS_STATIC_BUILD ? linkFlags : [linkFlags, "delayimp.lib", "gdi32.lib", "urlmon.lib", "Comdlg32.lib",
         "winmm.lib", "imm32.lib", "shell32.lib", "Uiautomationcore.lib", "dwmapi.lib",
         "/DELAYLOAD:user32.dll", "/DELAYLOAD:urlmon.dll", "/DELAYLOAD:winmm.dll", "/DELAYLOAD:shell32.dll",
         "/DELAYLOAD:Uiautomationcore.dll", "/DELAYLOAD:dwmapi.dll"].flatten()
@@ -371,7 +371,7 @@ WIN.prismD3D.nativeSource = [
 WIN.prismD3D.compiler = compiler
 WIN.prismD3D.ccFlags = [ccFlags, "/Ibuild/headers/PrismD3D"].flatten()
 WIN.prismD3D.linker = linker
-WIN.prismD3D.linkFlags = [linkFlags, "user32.lib"].flatten()
+WIN.prismD3D.linkFlags = IS_STATIC_BUILD ? linkFlags : [linkFlags, "user32.lib"].flatten()
 WIN.prismD3D.lib = "prism_d3d"
 WIN.prismD3D.rcCompiler = rcCompiler;
 WIN.prismD3D.rcSource = defaultRcSource
@@ -401,7 +401,7 @@ WIN.prismES2.nativeSource = [
 WIN.prismES2.compiler = compiler
 WIN.prismES2.ccFlags = ["/Ob1", "/GF", "/Gy", "/GS", "/DWIN32", ccFlags].flatten()
 WIN.prismES2.linker = linker
-WIN.prismES2.linkFlags = [linkFlags, "/SUBSYSTEM:WINDOWS", "opengl32.lib", "gdi32.lib", "user32.lib", "kernel32.lib"].flatten()
+WIN.prismES2.linkFlags = IS_STATIC_BUILD ? linkFlags : [linkFlags, "/SUBSYSTEM:WINDOWS", "opengl32.lib", "gdi32.lib", "user32.lib", "kernel32.lib"].flatten()
 WIN.prismES2.lib = "prism_es2"
 WIN.prismES2.rcCompiler = rcCompiler;
 WIN.prismES2.rcSource = defaultRcSource
@@ -417,7 +417,7 @@ WIN.font.compiler = compiler
 WIN.font.ccFlags = ["/DJFXFONT_PLUS", "/D_WIN32_WINNT=0x0601", ccFlags].flatten()
 WIN.font.ccFlags -= ["/DUNICODE", "/D_UNICODE"]
 WIN.font.linker = linker
-WIN.font.linkFlags = [linkFlags, "advapi32.lib", "gdi32.lib", "user32.lib", "dwrite.lib", "d2d1.lib", "windowscodecs.lib", "ole32.lib"].flatten()
+WIN.font.linkFlags = IS_STATIC_BUILD ? linkFlags : [linkFlags, "advapi32.lib", "gdi32.lib", "user32.lib", "dwrite.lib", "d2d1.lib", "windowscodecs.lib", "ole32.lib"].flatten()
 WIN.font.lib = "javafx_font"
 WIN.font.rcCompiler = rcCompiler;
 WIN.font.rcSource = defaultRcSource
