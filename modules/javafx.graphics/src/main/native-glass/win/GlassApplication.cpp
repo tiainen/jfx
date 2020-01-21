@@ -370,6 +370,7 @@ extern "C" {
 BOOL WINAPI DllMain(HANDLE hinstDLL, DWORD dwReason, LPVOID lpvReserved)
 {
     if (dwReason == DLL_PROCESS_ATTACH) {
+        fprintf(stderr, "[JSDBG] GlassApplication::DllMain() hinstDLL = %p\n", (HINSTANCE)hinstDLL);
         GlassApplication::SetHInstance((HINSTANCE)hinstDLL);
     }
     return TRUE;
@@ -444,9 +445,9 @@ JNIEXPORT jlong JNICALL Java_jdk_internal_misc_VM_getNanoTimeAdjustment(void *en
 JNIEXPORT void JNICALL Java_com_sun_glass_ui_win_WinApplication_initIDs
   (JNIEnv *env, jclass cls, jfloat overrideUIScale)
 {
-#ifdef STATIC_BUILD
     HINSTANCE hInstExe = ::GetModuleHandle(NULL);
     fprintf(stderr, "GlassApplication::_initIDs hInstExe = %p\n", hInstExe);
+#ifdef STATIC_BUILD
     GlassApplication::SetHInstance(hInstExe);
 #endif
 

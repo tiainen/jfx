@@ -225,9 +225,11 @@ LRESULT CALLBACK GlassWindow::CBTFilter(int nCode, WPARAM wParam, LPARAM lParam)
 {
     if (nCode == HCBT_ACTIVATE || nCode == HCBT_SETFOCUS) {
         BaseWnd *pWindow = BaseWnd::FromHandle((HWND)wParam);
+        fprintf(stderr, "GlassWindow::CBTFilter nCode = %d, pWindow = %p\n", nCode, pWindow);
         if (pWindow && pWindow->IsGlassWindow()) {
             GlassWindow * window = (GlassWindow*)pWindow;
 
+            fprintf(stderr, "GlassWindow::CBTFilter GlassWindow = %p; enabled = %d; focusable = %d\n", window, windows->IsEnabled(), windows->IsFocusable());
             if (!window->IsEnabled()) {
                 window->HandleFocusDisabledEvent();
                 return 1;
@@ -329,12 +331,12 @@ char *StringForMsg(UINT msg) {
 
 LRESULT GlassWindow::WindowProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-//    fprintf(stdout, "msg = 0x%04x (%s)\n", msg, StringForMsg(msg));
-//    fflush(stdout);
+    fprintf(stdout, "msg = 0x%04x (%s)\n", msg, StringForMsg(msg));
+    fflush(stdout);
     MessageResult commonResult = BaseWnd::CommonWindowProc(msg, wParam, lParam);
     if (commonResult.processed) {
-//        fprintf(stdout, "   (handled by CommonWindowProc)\n");
-//        fflush(stdout);
+        fprintf(stdout, "   (handled by CommonWindowProc)\n");
+        fflush(stdout);
         return commonResult.result;
     }
 
