@@ -91,7 +91,7 @@ HWND BaseWnd::Create(HWND hParent, int x, int y, int width, int height,
         ::ZeroMemory(szClassName, sizeof(szClassName));
         _stprintf_s(szClassName, sizeof(szClassName)/sizeof(szClassName[0]),
                 _T("GlassWndClass-%s-%u"), GetWindowClassNameSuffix(), ++BaseWnd::sm_classNameCounter);
-        fprintf(stderr, "[JSDBG] BaseWnd.Create() D: szClassName = %s\n", szClassName);
+        fprintf(stderr, "[JSDBG] BaseWnd.Create() D: szClassName = %ls\n", szClassName);
 
         WNDCLASSEX wndcls;
         wndcls.cbSize           = sizeof(WNDCLASSEX);
@@ -121,7 +121,7 @@ HWND BaseWnd::Create(HWND hParent, int x, int y, int width, int height,
             if (lpWindowName == NULL) {
                 lpWindowName = TEXT("");
             }
-            fprintf(stderr, "[JSDBG] BaseWnd.Create() I: lpWindowName = %s\n", lpWindowName);
+            fprintf(stderr, "[JSDBG] BaseWnd.Create() I: lpWindowName = %ls\n", lpWindowName);
             ::CreateWindowEx(dwExStyle, szClassName, lpWindowName,
                     dwStyle, x, y, width, height, hParent,
                     NULL, hInst, (void *)this);

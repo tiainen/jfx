@@ -145,6 +145,9 @@ public class NativeLibLoader {
             // from java.library.path instead of ones that might be part of the JRE
             //
             String [] libPath = initializePath("java.library.path");
+            if (verbose) {
+                System.out.println("Loading library from java.library.path: " + Arrays.toString(libPath));
+            }
             for (int i=0; i<libPath.length; i++) {
                 try {
                     String path = libPath[i];
@@ -387,6 +390,9 @@ public class NativeLibLoader {
             File libFile = new File(libDir, libPrefix + libraryName + libSuffix);
             String libFileName = libFile.getCanonicalPath();
             try {
+                if (verbose) {
+                    System.err.println("Loading " + libFileName + " from " + libFile.getAbsolutePath() + "...");
+                }
                 System.load(libFileName);
                 if (verbose) {
                     System.err.println("Loaded " + libFile.getAbsolutePath()

@@ -91,13 +91,16 @@ static HCURSOR GetNativeCursor(int type)
     }
 
     HCURSOR hCursor = ::LoadCursor(NULL, winCursor);
+    fprintf(stderr, "[JSDBG] GlassCursor::GetNativeCursor() winCursor = %d, hCursor = %p\n", winCursor, hCursor);
     if (!hCursor) {
         // Not a system cursor, check for resource
         hCursor = ::LoadCursor(GlassApplication::GetHInstance(), winCursor);
     }
+    fprintf(stderr, "[JSDBG] GlassCursor::GetNativeCursor() winCursor = %d, hCursor = %p\n", winCursor, hCursor);
     if (!hCursor) {
         hCursor = ::LoadCursor(NULL, IDC_ARROW);
     }
+    fprintf(stderr, "[JSDBG] GlassCursor::GetNativeCursor() winCursor = %d, hCursor = %p\n", winCursor, hCursor);
     ASSERT(hCursor);
 
     return hCursor;
