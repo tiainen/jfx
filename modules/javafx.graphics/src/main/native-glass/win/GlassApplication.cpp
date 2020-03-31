@@ -377,66 +377,6 @@ BOOL WINAPI DllMain(HANDLE hinstDLL, DWORD dwReason, LPVOID lpvReserved)
 }
 #endif
 
-typedef unsigned __int32 juint;
-typedef unsigned __int64 julong;
-#define CONST64(x)  (x ## LL)
-
-static void set_low(jlong* value, jint low) {
-    *value &= (jlong)0xffffffff << 32;
-    *value |= (jlong)(julong)(juint)low;
-}
-
-static void set_high(jlong* value, jint high) {
-    *value &= (jlong)(julong)(juint)0xffffffff;
-    *value |= (jlong)high       << 32;
-}
-
-static jlong jlong_from(jint h, jint l) {
-    jlong result = 0; // initialization to avoid warning
-    set_high(&result, h);
-    set_low(&result,  l);
-    return result;
-}
-
-static jlong  _offset   = 116444736000000000;
-jlong offset() {
-  return _offset;
-}
-
-// Returns time ticks in (10th of micro seconds)
-jlong windows_to_time_ticks(FILETIME wt) {
-  jlong a = jlong_from(wt.dwHighDateTime, wt.dwLowDateTime);
-  return (a - offset());
-}
-
-void javaTimeSystemUTC(jlong &seconds, jlong &nanos) {
-  FILETIME wt;
-  GetSystemTimeAsFileTime(&wt);
-  jlong ticks = windows_to_time_ticks(wt); // 10th of micros
-  jlong secs = jlong(ticks / 10000000); // 10000 * 1000
-  seconds = secs;
-  nanos = jlong(ticks - (secs*10000000)) * 100;
-}
-
-const jlong MAX_DIFF_SECS = CONST64(0x0100000000); //  2^32
-const jlong MIN_DIFF_SECS = -MAX_DIFF_SECS; // -2^32
-JNIEXPORT jlong JNICALL JVM_GetNanoTimeAdjustment(void *env, void * ignored, jlong offset_secs) {
-    jlong seconds;
-    jlong nanos;
-
-    javaTimeSystemUTC(seconds, nanos);
-
-    jlong diff = seconds - offset_secs;
-    if (diff >= MAX_DIFF_SECS || diff <= MIN_DIFF_SECS) {
-        return -1; // sentinel value: the offset is too far off the target
-    }
-    return (diff * (jlong)1000000000) + nanos;
-}
-
-JNIEXPORT jlong JNICALL Java_jdk_internal_misc_VM_getNanoTimeAdjustment(void *env, void * ignored, jlong offset_secs) {
-    return JVM_GetNanoTimeAdjustment(env, ignored, offset_secs);
-}
-
 /*
  * Class:     com_sun_glass_ui_win_WinApplication
  * Method:    initIDs
