@@ -1,38 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src/main/java"/>
-	<classpathentry kind="src" path="build/hlsl/Prism">
+	<classpathentry kind="src" output="bin/shims" path="src/main/java">
 		<attributes>
-			<attribute name="ignore_optional_problems" value="true"/>
+			<attribute name="gradle_scope" value="shims"/>
+			<attribute name="gradle_used_by_scope" value="test,shims"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="build/gensrc/jsl-prism"/>
-	<classpathentry kind="src" path="build/hlsl/Decora">
+	<classpathentry kind="src" output="bin/shims" path="src/shims/java">
 		<attributes>
-			<attribute name="ignore_optional_problems" value="true"/>
+			<attribute name="gradle_scope" value="shims"/>
+			<attribute name="gradle_used_by_scope" value="test,shims"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="build/gensrc/jsl-decora"/>
-	<classpathentry kind="src" output="testbin" path="src/shims/java">
+	<classpathentry kind="src" output="bin/test" path="src/test/java">
 		<attributes>
+			<attribute name="gradle_scope" value="test"/>
+			<attribute name="gradle_used_by_scope" value="test"/>
 			<attribute name="test" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" output="testbin" path="src/test/java">
+	<classpathentry kind="src" output="bin/shims" path="src/main/resources">
 		<attributes>
-			<attribute name="test" value="true"/>
-			<attribute name="optional" value="true"/>
+			<attribute name="gradle_scope" value="shims"/>
+			<attribute name="gradle_used_by_scope" value="test,shims"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="src/main/resources">
+	<classpathentry kind="src" output="bin/test" path="src/test/resources">
 		<attributes>
-			<attribute name="optional" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="src" output="testbin" path="src/test/resources">
-		<attributes>
+			<attribute name="gradle_scope" value="test"/>
+			<attribute name="gradle_used_by_scope" value="test"/>
 			<attribute name="test" value="true"/>
-			<attribute name="optional" value="true"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/base">
@@ -41,16 +38,19 @@
 			<attribute name="add-exports" value="javafx.base/com.sun.javafx.property=javafx.graphics"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4">
+	<classpathentry kind="src" output="bin/jslc" path="src/jslc/java">
 		<attributes>
-			<attribute name="test" value="true"/>
+			<attribute name="gradle_scope" value="jslc"/>
+			<attribute name="gradle_used_by_scope" value="jslc"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+	<classpathentry kind="src" output="bin/jslc" path="src/jslc/resources">
 		<attributes>
-			<attribute name="module" value="true"/>
-			<attribute name="add-exports" value="java.base/sun.security.util=javafx.graphics"/>
+			<attribute name="gradle_scope" value="jslc"/>
+			<attribute name="gradle_used_by_scope" value="jslc"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11/"/>
+	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer"/>
+	<classpathentry kind="output" path="bin/default"/>
 </classpath>
