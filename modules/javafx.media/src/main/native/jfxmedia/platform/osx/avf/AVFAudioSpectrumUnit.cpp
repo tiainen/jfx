@@ -41,7 +41,6 @@ AVFAudioSpectrumUnit::AVFAudioSpectrumUnit() : mSpectrumCallbackProc(NULL),
                                                mMaxFrames(0),
                                                mSamplesPerInterval(0),
                                                mRebuildCrunch(true),
-                                               mFirstBufferDelivered(false),
                                                mSpectrumElement(NULL),
                                                mSpectrum(NULL) {
     mMixBuffer.mNumberBuffers = 1;
@@ -216,10 +215,6 @@ void AVFAudioSpectrumUnit::SetMaxFrames(UInt32 maxFrames) {
 void AVFAudioSpectrumUnit::SetSpectrumCallbackProc(AVFSpectrumUnitCallbackProc proc, void *context) {
     mSpectrumCallbackProc = proc;
     mSpectrumCallbackContext = context;
-}
-
-void AVFAudioSpectrumUnit::SetFirstBufferDelivered(bool isFirstBufferDelivered) {
-    mFirstBufferDelivered = isFirstBufferDelivered;
 }
 
 static gboolean PostMessageCallback(GstElement * element, GstMessage * message) {
